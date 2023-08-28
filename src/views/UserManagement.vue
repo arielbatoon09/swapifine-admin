@@ -56,76 +56,32 @@ const {
         <table class="min-w-full leading-normal">
           <thead>
             <tr>
-              <th
-                class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200"
-              >
-                User
+              <th class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
+                #
               </th>
-              <th
-                class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200"
-              >
-                Role
+              <th class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
+                PROFILE
               </th>
-              <th
-                class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200"
-              >
-                Created at
+              <th class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
+                EMAIL
               </th>
-              <th
-                class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200"
-              >
-                Status
+              <th class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
+                ROLE
               </th>
-              <th
-                class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200"
-              >
-                Action
+              <th class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
+                CREATED DATE
+              </th>
+              <th class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
+                UPDATED DATE
+              </th>
+              <th class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
+                EDIT
+              </th>
+              <th class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
+                DELETE
               </th>
             </tr>
           </thead>
-          <tbody>
-            <tr v-for="(u, index) in paginatedTableData" :key="index">
-              <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                <div class="flex items-center">
-                  <div class="flex-shrink-0 w-10 h-10">
-                    <img class="w-full h-full rounded-full" :src="u.picture" alt="profile pic">
-                  </div>
-
-                  <div class="ml-3">
-                    <p class="text-gray-900 whitespace-nowrap">
-                      {{ u.name }}
-                    </p>
-                  </div>
-                </div>
-              </td>
-              <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                <p class="text-gray-900 whitespace-nowrap">
-                  {{ u.role }}
-                </p>
-              </td>
-              <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                <p class="text-gray-900 whitespace-nowrap">
-                  {{ u.created }}
-                </p>
-              </td>
-              <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                <!-- If-Inactive -->
-                <span class="relative inline-block px-3 py-1 text-red-900 leading-tight">
-                  <span aria-hidden class="absolute inset-0 bg-red-200 opacity-50 rounded-full" />
-                  <span class="relative">{{ u.status }}</span>
-                </span>
-                <!-- If-Active -->
-                <!-- <span :class="`relative inline-block px-3 py-1 text-green-900 leading-tight`">
-                  <span aria-hidden :class="`absolute inset-0 bg-green-200 opacity-50 rounded-full`" />
-                  <span class="relative">{{ u.status }}</span>
-                </span>                 -->
-              </td>
-              <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
-                <a href="#" class=" ml-3 text-red-400 hover:text-red-600">Delete</a>
-              </td>
-            </tr>
-          </tbody>
         </table>
         <div class="flex flex-col items-center px-5 py-5 bg-white border-t xs:flex-row xs:justify-between">
           <span class="text-xs text-gray-900 xs:text-sm">Showing 1 to 4 of 50 Entries</span>

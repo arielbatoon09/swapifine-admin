@@ -5,6 +5,7 @@ import Dashboard from './views/Dashboard.vue'
 import Categories from './views/Categories.vue'
 import VerificationRequest from './views/VerificationRequest.vue'
 import TransactionHistory from './views/TransactionHistory.vue'
+import UserTransaction from './views/UserTransaction.vue'
 import UserManagement from './views/UserManagement.vue'
 import AdminManagement from './views/AdminManagement.vue'
 import Settings from './views/Settings.vue'
@@ -42,6 +43,11 @@ const routes: RouteRecordRaw[] = [
     path: '/TransactionHistory',
     name: 'TransactionHistory',
     component: TransactionHistory,
+  },
+  {
+    path: '/UserTransaction',
+    name: 'UserTransaction',
+    component: UserTransaction,
   },
   {
     path: '/user',

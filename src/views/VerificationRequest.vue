@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { useTableData } from '../composables/useTableData'
+import { verificationTableData } from '../composables/verificationTableData'
 
 const {
   paginatedTableData,
-} = useTableData()
+} = verificationTableData()
 </script>
 
 <template>
@@ -55,33 +55,98 @@ const {
         <table class="min-w-full leading-normal">
           <thead>
             <tr>
-              <th
-                class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200"
-              >
-                User
+              <th class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
+                #
               </th>
-              <th
-                class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200"
-              >
-                Role
+              <th class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
+                FIRST NAME
               </th>
-              <th
-                class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200"
-              >
-                Created at
+              <th class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
+                LAST NAME
               </th>
-              <th
-                class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200"
-              >
-                Status
+              <th class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
+                EMAIL
               </th>
-              <th
-                class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200"
-              >
-                Action
+              <th class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
+                DATE OF REQUEST
+              </th>
+              <th class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
+                STATUS
+              </th>
+              <th class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
+                ACTION
               </th>
             </tr>
           </thead>
+          <tbody>
+            <tr v-for="(u, index) in paginatedTableData" :key="index">
+              <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                <div class="flex items-center">
+                  <div>
+                    <p class="text-gray-900 whitespace-nowrap">
+                      {{ u.id }}
+                    </p>
+                  </div>
+                </div>
+              </td>
+              <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                <div class="flex items-center">
+                  <div>
+                    <p class="text-gray-900 whitespace-nowrap">
+                      {{ u.firstname }}
+                    </p>
+                  </div>
+                </div>
+              </td>
+              <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                <div class="flex items-center">
+                  <div>
+                    <p class="text-gray-900 whitespace-nowrap">
+                      {{ u.lastname }}
+                    </p>
+                  </div>
+                </div>
+              </td>
+              <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                <div class="flex items-center">
+                  <div>
+                    <p class="text-gray-900 whitespace-nowrap">
+                      {{ u.email }}
+                    </p>
+                  </div>
+                </div>
+              </td>
+              <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                <div class="flex items-center">
+                  <div>
+                    <p class="text-gray-900 whitespace-nowrap">
+                      {{ u.created }}
+                    </p>
+                  </div>
+                </div>
+              </td>
+              <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                <div class="flex items-center">
+                  <span :class="`relative inline-block px-3 py-1 text-green-900 leading-tight`">
+                  <span aria-hidden :class="`absolute inset-0 bg-green-200 opacity-50 rounded-full`" />
+                  <span class="relative text-green-600">{{ u.status }}</span>
+                </span>
+                </div>
+              </td>
+              <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                <div class="flex items-center">
+                  <div>
+                    <p class="text-gray-900 whitespace-nowrap">
+                      <a href="#" class="`absolute inset-0 bg-gray-200 rounded-full p-2 px-3">Details</a>
+                      <!-- {{ u.action }} -->
+                    </p>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <!-- <table class="min-w-full leading-normal">
           <tbody>
             <tr v-for="(u, index) in paginatedTableData" :key="index">
               <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
@@ -108,16 +173,14 @@ const {
                 </p>
               </td>
               <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                <!-- If-Inactive -->
                 <span class="relative inline-block px-3 py-1 text-red-900 leading-tight">
                   <span aria-hidden class="absolute inset-0 bg-red-200 opacity-50 rounded-full" />
                   <span class="relative">{{ u.status }}</span>
                 </span>
-                <!-- If-Active -->
-                <!-- <span :class="`relative inline-block px-3 py-1 text-green-900 leading-tight`">
+                <span :class="`relative inline-block px-3 py-1 text-green-900 leading-tight`">
                   <span aria-hidden :class="`absolute inset-0 bg-green-200 opacity-50 rounded-full`" />
                   <span class="relative">{{ u.status }}</span>
-                </span>                 -->
+                </span>                
               </td>
               <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
                 <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
@@ -125,7 +188,7 @@ const {
               </td>
             </tr>
           </tbody>
-        </table>
+        </table> -->
         <div class="flex flex-col items-center px-5 py-5 bg-white border-t xs:flex-row xs:justify-between">
           <span class="text-xs text-gray-900 xs:text-sm">Showing 1 to 4 of 50 Entries</span>
 
