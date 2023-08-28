@@ -9,7 +9,8 @@ import Login from './views/Login.vue'
 import Modal from './views/Modal.vue'
 import Card from './views/Card.vue'
 import Blank from './views/Blank.vue'
-import UserManagement from './views/UserManagement.vue';
+import UserManagement from './views/UserManagement.vue'
+import VerificationRequest from './views/VerificationRequest.vue'
 
 const routes: RouteRecordRaw[] = [
   {
@@ -27,6 +28,11 @@ const routes: RouteRecordRaw[] = [
     path: '/dashboard',
     name: 'Dashboard',
     component: Dashboard,
+  },
+  {
+    path: '/VerificationRequest',
+    name: 'VerificationRequest',
+    component: VerificationRequest,
   },
   {
     path: '/forms',
