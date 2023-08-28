@@ -9,7 +9,7 @@ import Login from './views/Login.vue'
 import Modal from './views/Modal.vue'
 import Card from './views/Card.vue'
 import Blank from './views/Blank.vue'
-import Categories from './views/Categories.vue';
+import UserManagement from './views/UserManagement.vue';
 
 const routes: RouteRecordRaw[] = [
   {
@@ -19,9 +19,9 @@ const routes: RouteRecordRaw[] = [
     meta: { layout: 'empty' },
   },
   {
-    path: '/categories',
-    name: 'Categories',
-    component: Categories,
+    path: '/user',
+    name: 'User',
+    component: UserManagement,
   },
   {
     path: '/dashboard',
