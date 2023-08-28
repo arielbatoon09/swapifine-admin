@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { useTableData } from '../composables/useTableData'
+import { userManagementTableData } from '../composables/userManagementTableData'
 
 const {
   paginatedTableData,
-} = useTableData()
+} = userManagementTableData()
 </script>
 
 <template>
@@ -74,14 +74,84 @@ const {
               <th class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
                 UPDATED DATE
               </th>
-              <th class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
-                EDIT
-              </th>
-              <th class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
-                DELETE
+              <th class="px-8 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
+                ACTION
               </th>
             </tr>
           </thead>
+          <tbody>
+            <tr v-for="(u, index) in paginatedTableData" :key="index">
+              <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                <div class="flex items-center">
+                  <div>
+                    <p class="text-gray-900 whitespace-nowrap">
+                      {{ u.id }}
+                    </p>
+                  </div>
+                </div>
+              </td>
+              <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                <div class="flex items-center">
+                  <div>
+                    <img
+                          class="w-8 h-8 rounded-full"
+                          :src="u.profile"
+                        >
+                    <!-- <p class="text-gray-900 whitespace-nowrap">
+                      {{ u.profile }}
+                    </p> -->
+                  </div>
+                </div>
+              </td>
+              <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                <div class="flex items-center">
+                  <div>
+                    <p class="text-gray-900 whitespace-nowrap">
+                      {{ u.email }}
+                    </p>
+                  </div>
+                </div>
+              </td>
+              <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                <div class="flex items-center">
+                  <div>
+                    <p class="text-gray-900 whitespace-nowrap">
+                      {{ u.role }}
+                    </p>
+                  </div>
+                </div>
+              </td>
+              <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                <div class="flex items-center">
+                  <div>
+                    <p class="text-gray-900 whitespace-nowrap">
+                      {{ u.created }}
+                    </p>
+                  </div>
+                </div>
+              </td>
+              <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                <div class="flex items-center">
+                  <div>
+                    <p class="text-gray-900 whitespace-nowrap">
+                      {{ u.updated }}
+                    </p>
+                  </div>
+                </div>
+              </td>
+              <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                <div class="flex items-center">
+                  <div>
+                    <p class="text-gray-900 whitespace-nowrap">
+                      <a href="#" class="'absolute mx-3 inset-0 bg-blue-200 rounded-md p-2 px-5 text-indigo-600 hover:text-indigo-900">Edit</a>
+                      <a href="#" class="'absolute inset-0 bg-red-400 rounded-md p-2 px-3">Delete</a>
+                      <!-- {{ u.action }} -->
+                    </p>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
         </table>
         <div class="flex flex-col items-center px-5 py-5 bg-white border-t xs:flex-row xs:justify-between">
           <span class="text-xs text-gray-900 xs:text-sm">Showing 1 to 4 of 50 Entries</span>
