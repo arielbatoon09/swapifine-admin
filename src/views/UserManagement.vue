@@ -12,10 +12,6 @@ const {
   </h3>
 
   <div class="mt-6">
-    <h2 class="text-xl font-semibold leading-tight text-gray-700">
-      Users
-    </h2>
-
     <div class="flex flex-col mt-3 sm:flex-row">
       <div class="flex">
         <div class="relative">

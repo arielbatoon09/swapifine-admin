@@ -8,7 +8,7 @@ const {
 
 <template>
   <h3 class="text-gray-700 text-3xl font-medium">
-    Verification Request
+    Transaction History
   </h3>
   <div class="mt-6">
     <div class="flex flex-col mt-3 sm:flex-row">

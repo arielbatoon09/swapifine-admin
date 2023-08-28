@@ -2,6 +2,12 @@ import type { RouteRecordRaw } from 'vue-router'
 import { createRouter, createWebHistory } from 'vue-router'
 
 import Dashboard from './views/Dashboard.vue'
+import Categories from './views/Categories.vue'
+import VerificationRequest from './views/VerificationRequest.vue'
+import TransactionHistory from './views/TransactionHistory.vue'
+import UserManagement from './views/UserManagement.vue'
+import AdminManagement from './views/AdminManagement.vue'
+import Settings from './views/Settings.vue'
 import Forms from './views/Forms.vue'
 import Tables from './views/Tables.vue'
 import UIElements from './views/UIElements.vue'
@@ -9,8 +15,6 @@ import Login from './views/Login.vue'
 import Modal from './views/Modal.vue'
 import Card from './views/Card.vue'
 import Blank from './views/Blank.vue'
-import UserManagement from './views/UserManagement.vue'
-import VerificationRequest from './views/VerificationRequest.vue'
 
 const routes: RouteRecordRaw[] = [
   {
@@ -20,19 +24,39 @@ const routes: RouteRecordRaw[] = [
     meta: { layout: 'empty' },
   },
   {
-    path: '/user',
-    name: 'User',
-    component: UserManagement,
-  },
-  {
     path: '/dashboard',
     name: 'Dashboard',
     component: Dashboard,
   },
   {
+    path: '/categories',
+    name: 'Categories',
+    component: Categories,
+  },
+  {
     path: '/VerificationRequest',
     name: 'VerificationRequest',
     component: VerificationRequest,
+  },
+  {
+    path: '/TransactionHistory',
+    name: 'TransactionHistory',
+    component: TransactionHistory,
+  },
+  {
+    path: '/user',
+    name: 'User',
+    component: UserManagement,
+  },
+  {
+    path: '/AdminManagement',
+    name: 'AdminManagement',
+    component: AdminManagement,
+  },
+  {
+    path: '/settings',
+    name: 'Settings',
+    component: Settings,
   },
   {
     path: '/forms',
