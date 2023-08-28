@@ -19,3 +19,19 @@
 ::-webkit-scrollbar-thumb:hover{
   background: #718096;
 }
+
+.bg-clr-primary{
+  background: #003D66;
+}
+
+.text-clr-primary{
+  background: #003D66;
+}
+
+.btn-clr-primary{
+  background: #003D66;
+}
+
+.btn-clr-primary:hover{
+  background: #05446F;
+}
