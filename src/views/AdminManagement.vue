@@ -136,12 +136,8 @@ const {
           UPDATED DATE
         </th>
         <th
-          class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
-          EDIT
-        </th>
-        <th
-          class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
-          DELETE
+          class="px-8 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
+          ACTION
         </th>
       </tr>
     </thead>
@@ -173,7 +169,7 @@ const {
                 <div class="flex items-center">
                   <div>
                     <p class="text-gray-900 whitespace-nowrap">
-                      <!-- {{ u.email }} -->
+                      {{ u.email }}
                     </p>
                   </div>
                 </div>
@@ -182,7 +178,7 @@ const {
                 <div class="flex items-center">
                   <div>
                     <p class="text-gray-900 whitespace-nowrap">
-                      <!-- {{ u.role }} -->
+                      {{ u.role }}
                     </p>
                   </div>
                 </div>
@@ -191,7 +187,7 @@ const {
                 <div class="flex items-center">
                   <div>
                     <p class="text-gray-900 whitespace-nowrap">
-                      <!-- {{ u.created }} -->
+                      {{ u.created }}
                     </p>
                   </div>
                 </div>
@@ -200,7 +196,7 @@ const {
                 <div class="flex items-center">
                   <div>
                     <p class="text-gray-900 whitespace-nowrap">
-                      <!-- {{ u.updated }} -->
+                      {{ u.updated }}
                     </p>
                   </div>
                 </div>
