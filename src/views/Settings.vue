@@ -36,6 +36,69 @@ function register() {
 
     </div>
   </div>
+  <div class="flex mb-4">
+    <div class="w-1/3 h-12">
+      <div class="p-6 bg-white rounded-md shadow-mds">
+        <div class="p-6">
+          <div class="">
+            <img src="https://images.unsplash.com/photo-1528892952291-009c663ce843?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=296&q=80" alt="" height="50" width="50" class="rounded-full">
+          </div>
+          <div>
+            <input type="file" name="" id="">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="w-1/6 h-12"></div>
+
+    <div class="w-1/2 h-12">
+      <div class="p-6 bg-white rounded-md shadow-md">
+        <form @submit.prevent="register">
+          <div class="grid grid-rows-1 gap-6 mt-4 sm:grid-rows-2">
+            <div>
+              <label class="text-gray-700" for="username">Username</label>
+              <input
+                class="w-full mt-2 border-gray-200 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
+                type="text">
+                <!-- v-model -->
+            </div>
+
+            <div>
+              <label class="text-gray-700" for="emailAddress">Email Address</label>
+              <input
+                class="w-full mt-2 border-gray-200 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
+                type="email">
+                <!-- v-model -->
+            </div>
+
+            <div>
+              <label class="text-gray-700" for="password">Password</label>
+              <input
+                class="w-full mt-2 border-gray-200 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
+                type="password">
+                <!-- v-model -->
+            </div>
+
+            <div>
+              <label class="text-gray-700" for="passwordConfirmation">Password Confirmation</label>
+              <input
+                class="w-full mt-2 border-gray-200 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
+                type="password">
+                <!-- v-model -->
+            </div>
+          </div>
+
+          <div class="flex justify-end mt-4">
+            <button
+              class="px-4 py-2 text-gray-200 bg-gray-800 rounded-md hover:bg-gray-700 focus:outline-none focus:bg-gray-700">
+              Save
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
   <!-- <div class="flex mb-4">
     <div class="w-1/3 bg-gray-400 h-12"></div>
     <div class="w-1/4 h-12"></div>
