@@ -42,7 +42,7 @@ const {
         <div class="px-6 py-4 text-left modal-content">
           <!-- Title -->
           <div class="flex items-center justify-between pb-3">
-            <p class="text-2xl font-bold">
+            <p class="text-lg text-gray-700 font-medium">
               Send Invite
             </p>
             <div class="z-50 cursor-pointer modal-close" @click="open = false">
@@ -55,7 +55,7 @@ const {
           </div>
 
           <!-- Body -->
-          <input class="px-8" type="email" name="email" id="" placeholder="Email">
+          <input class="w-full mt-2 border-gray-200 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500 mb-3" type="email" name="email" id="" placeholder="Email">
 
           <!-- Footer -->
           <div class="flex justify-end pt-2">
