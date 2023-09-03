@@ -5,13 +5,11 @@ import { defineStore } from 'pinia';
 import { ref } from 'vue'
 import { userManagementTableData } from '../composables/userManagementTableData'
 
-const open = ref(false);
-// const authStore = useAuthStore();
-const isRequest = ref(false);
+const isOpen = ref(false);
 
 const {
   paginatedTableData,
-} = userManagementTableData()
+} = userManagementTableData();
 
 const form = ref({
   fullname: '',
@@ -26,7 +24,15 @@ const handleInvite = async () => {
       fullname: fullname,
       email: email,
     });
-    console.log("Password: "+ response.data.password);
+
+    if (response.data.status == 'success') {
+      form.value.fullname = '';
+      form.value.email = '';
+      isOpen.value = false;
+    }
+
+    console.log(response.data);
+
 
   } catch (error) {
     console.error("Error:", error);
@@ -40,13 +46,13 @@ const handleInvite = async () => {
     Admin Management
   </h3>
   <div>
-    <button class="px-6 py-3 mt-3 font-medium tracking-wide text-white btn-clr-primary rounded-md" @click="open = true">
-      +ADD ADMIN
+    <button class="px-6 py-3 mt-3 font-medium tracking-wide text-white btn-clr-primary rounded-md" @click="isOpen = true">
+      ADD ADMIN
     </button>
 
-    <div :class="`modal ${!open && 'opacity-0 pointer-events-none'
+    <div :class="`modal ${!isOpen && 'opacity-0 pointer-events-none'
       } z-50 fixed w-full h-full top-0 left-0 flex items-center justify-center`">
-      <div class="absolute w-full h-full bg-gray-900 opacity-50 modal-overlay" @click="open = false" />
+      <div class="absolute w-full h-full bg-gray-900 opacity-50 modal-overlay" @click="isOpen = false" />
 
       <div class="z-50 w-11/12 mx-auto overflow-y-auto bg-white rounded shadow-lg modal-container md:max-w-md">
         <div
@@ -66,7 +72,7 @@ const handleInvite = async () => {
             <p class="text-lg text-grey-700">
               Send Invite
             </p>
-            <div class="z-50 cursor-pointer modal-close" @click="open = false">
+            <div class="z-50 cursor-pointer modal-close" @click="isOpen = false">
               <svg class="text-black fill-current" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
                 viewBox="0 0 18 18">
                 <path
@@ -87,11 +93,11 @@ const handleInvite = async () => {
           <div class="flex justify-end pt-2">
             <button
               class="p-3 px-6 py-3 mr-2 text-indigo-500 bg-transparent rounded-lg hover:bg-gray-100 hover:text-indigo-400 focus:outline-none"
-              @click="open = false">
+              @click="isOpen = false">
               Close
             </button>
             <button class="px-6 py-3 font-medium tracking-wide text-white btn-clr-primary rounded-md"
-              @click="handleInvite">
+              @click="handleInvite()">
               Send
             </button>
           </div>

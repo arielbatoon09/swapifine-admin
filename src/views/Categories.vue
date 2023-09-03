@@ -10,6 +10,9 @@ const {
   <h3 class="text-gray-700 text-3xl font-medium">
     Categories
   </h3>
+  <button class="px-6 py-3 mt-3 font-medium tracking-wide text-white btn-clr-primary rounded-md" @click="">
+      ADD CATEGORY
+    </button>
   <div class="mt-6">
     <div class="flex flex-col mt-3 sm:flex-row">
       <div class="flex">
@@ -64,6 +67,10 @@ const {
               </th>
               <th
                 class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
+                TOTAL POST
+              </th>
+              <th
+                class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
                 CREATED DATE
               </th>
               <th
@@ -97,11 +104,6 @@ const {
                 </div>
               </td>
               <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                <p class="text-gray-900 whitespace-nowrap">
-                  {{ u.role }}
-                </p>
-              </td>
-              <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
                 <!-- If-Inactive -->
                 <span class="relative inline-block px-3 py-1 text-red-900 leading-tight">
                   <span aria-hidden class="absolute inset-0 bg-red-200 opacity-50 rounded-full" />
@@ -112,6 +114,16 @@ const {
                   <span aria-hidden :class="`absolute inset-0 bg-green-200 opacity-50 rounded-full`" />
                   <span class="relative">{{ u.status }}</span>
                 </span>                 -->
+              </td>
+              <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                <p class="text-gray-900 whitespace-nowrap">
+                  {{ u.totalPost }}
+                </p>
+              </td>
+              <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                <p class="text-gray-900 whitespace-nowrap">
+                  {{ u.created }}
+                </p>
               </td>
               <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
                 <p class="text-gray-900 whitespace-nowrap">

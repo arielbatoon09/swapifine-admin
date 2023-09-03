@@ -10,7 +10,9 @@ export interface IPaginatedTableData {
   name: string
   role: string
   created: string
+  updated: string
   status: string
+  totalPost: string
   statusColor: string
 }
 
@@ -37,7 +39,9 @@ export function useTableData() {
       name: 'Vera Carpenter',
       role: 'Admin',
       created: 'Jan 21, 2020',
+      updated: 'Jan 21, 2020',
       status: 'Active',
+      totalPost: '20',
       statusColor: 'green',
     },
     {
@@ -45,7 +49,9 @@ export function useTableData() {
       name: 'Blake Bowman',
       role: 'Editor',
       created: 'Jan 01, 2020',
+      updated: 'Jan 21, 2020',
       status: 'Active',
+      totalPost: '20',
       statusColor: 'green',
     },
     {
@@ -53,7 +59,9 @@ export function useTableData() {
       name: 'Dana Moore',
       role: 'Editor',
       created: 'Jan 10, 2020',
+      updated: 'Jan 21, 2020',
       status: 'Suspended',
+      totalPost: '20',
       statusColor: 'orange',
     },
     {
@@ -61,7 +69,9 @@ export function useTableData() {
       name: 'Alonzo Cox',
       role: 'Admin',
       created: 'Jan 18, 2020',
+      updated: 'Jan 21, 2020',
       status: 'Inactive',
+      totalPost: '20',
       statusColor: 'red',
     },
   ])
