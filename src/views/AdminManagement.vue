@@ -21,13 +21,13 @@ const form = ref({
 const handleInvite = async () => {
   try {
     const { fullname, email } = form.value;
-    alert(fullname+ email);
-    
+
     const response = await axios.post('/api/admin/invite', {
       fullname: fullname,
       email: email,
     });
-    console.log(response);
+    console.log("Password: "+ response.data.password);
+
   } catch (error) {
     console.error("Error:", error);
   }
