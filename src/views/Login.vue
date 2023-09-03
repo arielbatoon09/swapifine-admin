@@ -2,13 +2,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
-const router = useRouter()
-const email = ref('swapifine.zhen@mail.com')
-const password = ref('@#!@#asdf1231!_!@#')
 
-function login() {
-  router.push('/dashboard')
-}
 </script>
 
 <template>
@@ -19,11 +13,11 @@ function login() {
         <span class="text-2xl font-semibold text-gray-700">Swapifine Admin Panel</span>
       </div>
 
-      <form class="mt-4" @submit.prevent="login">
+      <form class="mt-4" @submit.prevent="">
         <label class="block">
           <span class="text-sm text-gray-700">Email</span>
           <input
-            v-model="email"
+  
             type="email"
             class="block w-full mt-1 border-gray-200 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
           >
@@ -32,7 +26,6 @@ function login() {
         <label class="block mt-3">
           <span class="text-sm text-gray-700">Password</span>
           <input
-            v-model="password"
             type="password"
             class="block w-full mt-1 border-gray-200 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
           >

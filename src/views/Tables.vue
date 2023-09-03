@@ -173,7 +173,7 @@ const {
                       <div class="flex-shrink-0 w-10 h-10">
                         <img
                           class="w-full h-full rounded-full"
-                          :src="u.picture"
+                          src="../"
                           alt="profile pic"
                         >
                       </div>

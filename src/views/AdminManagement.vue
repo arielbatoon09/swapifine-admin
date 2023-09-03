@@ -1,14 +1,37 @@
 <script setup lang="ts">
+import axios from 'axios';
+import { defineStore } from 'pinia';
+// import { useAuthStore } from './AdminManagement.vue';
 import { ref } from 'vue'
-
-const open = ref(false)
-
-
 import { userManagementTableData } from '../composables/userManagementTableData'
+
+const open = ref(false);
+// const authStore = useAuthStore();
+const isRequest = ref(false);
 
 const {
   paginatedTableData,
 } = userManagementTableData()
+
+const form = ref({
+  fullname: '',
+  email: '',
+});
+
+const handleInvite = async () => {
+  try {
+    const { fullname, email } = form.value;
+    alert(fullname+ email);
+    
+    const response = await axios.post('/api/admin/invite', {
+      fullname: fullname,
+      email: email,
+    });
+    console.log(response);
+  } catch (error) {
+    console.error("Error:", error);
+  }
+};
 
 </script>
 
@@ -17,9 +40,7 @@ const {
     Admin Management
   </h3>
   <div>
-    <button
-      class="px-6 py-3 mt-3 font-medium tracking-wide text-white btn-clr-primary rounded-md"
-      @click="open = true">
+    <button class="px-6 py-3 mt-3 font-medium tracking-wide text-white btn-clr-primary rounded-md" @click="open = true">
       +ADD ADMIN
     </button>
 
@@ -55,7 +76,12 @@ const {
           </div>
 
           <!-- Body -->
-          <input class="w-full mt-2 border-gray-200 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500 mb-3" type="email" name="email" id="" placeholder="Email">
+          <input
+            class="w-full mt-2 border-gray-200 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500 mb-3"
+            v-model="form.fullname" type="text" name="fullname"  placeholder="Full Name">
+          <input
+            class="w-full mt-2 border-gray-200 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500 mb-3"
+            v-model="form.email" type="email" name="email" placeholder="Email">
 
           <!-- Footer -->
           <div class="flex justify-end pt-2">
@@ -64,9 +90,8 @@ const {
               @click="open = false">
               Close
             </button>
-            <button
-              class="px-6 py-3 font-medium tracking-wide text-white btn-clr-primary rounded-md"
-              @click="open = false">
+            <button class="px-6 py-3 font-medium tracking-wide text-white btn-clr-primary rounded-md"
+              @click="handleInvite">
               Send
             </button>
           </div>
@@ -142,78 +167,76 @@ const {
       </tr>
     </thead>
     <tbody>
-            <tr v-for="(u, index) in paginatedTableData" :key="index">
-              <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                <div class="flex items-center">
-                  <div>
-                    <p class="text-gray-900 whitespace-nowrap">
-                      {{ u.id }}
-                    </p>
-                  </div>
-                </div>
-              </td>
-              <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                <div class="flex items-center">
-                  <div>
-                    <img
-                          class="w-8 h-8 rounded-full"
-                          :src="u.profile"
-                        >
-                    <!-- <p class="text-gray-900 whitespace-nowrap">
+      <tr v-for="(u, index) in paginatedTableData" :key="index">
+        <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+          <div class="flex items-center">
+            <div>
+              <p class="text-gray-900 whitespace-nowrap">
+                {{ u.id }}
+              </p>
+            </div>
+          </div>
+        </td>
+        <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+          <div class="flex items-center">
+            <div>
+              <img class="w-8 h-8 rounded-full" :src="u.profile">
+              <!-- <p class="text-gray-900 whitespace-nowrap">
                       {{ u.profile }}
                     </p> -->
-                  </div>
-                </div>
-              </td>
-              <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                <div class="flex items-center">
-                  <div>
-                    <p class="text-gray-900 whitespace-nowrap">
-                      {{ u.email }}
-                    </p>
-                  </div>
-                </div>
-              </td>
-              <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                <div class="flex items-center">
-                  <div>
-                    <p class="text-gray-900 whitespace-nowrap">
-                      {{ u.role }}
-                    </p>
-                  </div>
-                </div>
-              </td>
-              <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                <div class="flex items-center">
-                  <div>
-                    <p class="text-gray-900 whitespace-nowrap">
-                      {{ u.created }}
-                    </p>
-                  </div>
-                </div>
-              </td>
-              <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                <div class="flex items-center">
-                  <div>
-                    <p class="text-gray-900 whitespace-nowrap">
-                      {{ u.updated }}
-                    </p>
-                  </div>
-                </div>
-              </td>
-              <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                <div class="flex items-center">
-                  <div>
-                    <p class="text-gray-900 whitespace-nowrap">
-                      <a href="#" class="'absolute mx-3 inset-0 bg-blue-200 rounded-md p-2 px-5 text-indigo-600 hover:text-indigo-900">Edit</a>
-                      <a href="#" class="'absolute inset-0 bg-red-400 rounded-md p-2 px-3">Delete</a>
-                      <!-- {{ u.action }} -->
-                    </p>
-                  </div>
-                </div>
-              </td>
-            </tr>
-          </tbody>
+            </div>
+          </div>
+        </td>
+        <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+          <div class="flex items-center">
+            <div>
+              <p class="text-gray-900 whitespace-nowrap">
+                {{ u.email }}
+              </p>
+            </div>
+          </div>
+        </td>
+        <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+          <div class="flex items-center">
+            <div>
+              <p class="text-gray-900 whitespace-nowrap">
+                {{ u.role }}
+              </p>
+            </div>
+          </div>
+        </td>
+        <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+          <div class="flex items-center">
+            <div>
+              <p class="text-gray-900 whitespace-nowrap">
+                {{ u.created }}
+              </p>
+            </div>
+          </div>
+        </td>
+        <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+          <div class="flex items-center">
+            <div>
+              <p class="text-gray-900 whitespace-nowrap">
+                {{ u.updated }}
+              </p>
+            </div>
+          </div>
+        </td>
+        <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+          <div class="flex items-center">
+            <div>
+              <p class="text-gray-900 whitespace-nowrap">
+                <a href="#"
+                  class="'absolute mx-3 inset-0 bg-blue-200 rounded-md p-2 px-5 text-indigo-600 hover:text-indigo-900">Edit</a>
+                <a href="#" class="'absolute inset-0 bg-red-400 rounded-md p-2 px-3">Delete</a>
+                <!-- {{ u.action }} -->
+              </p>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
   </table>
   <div class="flex flex-col items-center px-5 py-5 bg-white border-t xs:flex-row xs:justify-between">
     <span class="text-xs text-gray-900 xs:text-sm">Showing 1 to 4 of 50 Entries</span>

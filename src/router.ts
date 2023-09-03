@@ -75,11 +75,6 @@ const routes: RouteRecordRaw[] = [
     component: Card,
   },
   {
-    path: '/tables',
-    name: 'Tables',
-    component: Tables,
-  },
-  {
     path: '/ui-elements',
     name: 'UIElements',
     component: UIElements,
@@ -94,6 +89,11 @@ const routes: RouteRecordRaw[] = [
     name: 'Blank',
     component: Blank,
   },
+  {
+    path: '/(.*)',
+    name: '404',
+    component: Forms,
+  }
 ]
 
 const router = createRouter({
