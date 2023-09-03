@@ -18,7 +18,7 @@ const {
   </h3>
   <div>
     <button
-      class="px-6 py-3 mt-3 font-medium tracking-wide text-white bg-indigo-600 rounded-md hover:bg-indigo-500 focus:outline-none"
+      class="px-6 py-3 mt-3 font-medium tracking-wide text-white btn-clr-primary rounded-md"
       @click="open = true">
       +ADD ADMIN
     </button>
@@ -42,7 +42,7 @@ const {
         <div class="px-6 py-4 text-left modal-content">
           <!-- Title -->
           <div class="flex items-center justify-between pb-3">
-            <p class="text-lg text-gray-700 font-medium">
+            <p class="text-lg text-grey-700">
               Send Invite
             </p>
             <div class="z-50 cursor-pointer modal-close" @click="open = false">
@@ -65,7 +65,7 @@ const {
               Close
             </button>
             <button
-              class="px-6 py-3 font-medium tracking-wide text-white bg-indigo-600 rounded-md hover:bg-indigo-500 focus:outline-none"
+              class="px-6 py-3 font-medium tracking-wide text-white btn-clr-primary rounded-md"
               @click="open = false">
               Send
             </button>
