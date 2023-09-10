@@ -1,15 +1,12 @@
 <script setup lang="ts">
 import axios from 'axios';
 import { defineStore } from 'pinia';
-// import { useAuthStore } from './AdminManagement.vue';
-import { ref } from 'vue'
-import { userManagementTableData } from '../composables/userManagementTableData'
+import { ref, computed, onMounted } from 'vue';
 
 const isOpen = ref(false);
-
-const {
-  paginatedTableData,
-} = userManagementTableData();
+const editbtn = ref(false);
+const deletebtn = ref(false);
+const data = ref([]);
 
 const form = ref({
   fullname: '',
@@ -20,7 +17,7 @@ const handleInvite = async () => {
   try {
     const { fullname, email } = form.value;
 
-    const response = await axios.post('/api/admin/invite', {
+    const response = await axios.post('api/admin/invite', {
       fullname: fullname,
       email: email,
     });
@@ -32,13 +29,30 @@ const handleInvite = async () => {
     }
 
     console.log(response.data);
-
+    fetchData(); // Call fetchData to update the data after a successful invite.
 
   } catch (error) {
     console.error("Error:", error);
   }
 };
 
+const fetchData = async () => {
+  try {
+    const response = await axios.get('/api/admin/list');
+    data.value = response.data;
+  } catch (error) {
+    console.error("Error fetching data", error);
+  }
+};
+
+onMounted(() => {
+  fetchData();
+});
+
+const computedData = computed(() => {
+  console.log(data.value);
+  return data.value;
+});
 </script>
 
 <template>
@@ -84,7 +98,7 @@ const handleInvite = async () => {
           <!-- Body -->
           <input
             class="w-full mt-2 border-gray-200 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500 mb-3"
-            v-model="form.fullname" type="text" name="fullname"  placeholder="Full Name">
+            v-model="form.fullname" type="text" name="fullname" placeholder="Full Name">
           <input
             class="w-full mt-2 border-gray-200 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500 mb-3"
             v-model="form.email" type="email" name="email" placeholder="Email">
@@ -139,121 +153,181 @@ const handleInvite = async () => {
         class="block w-full py-2 pl-8 pr-6 text-sm text-gray-700 placeholder-gray-400 bg-white border border-b border-gray-400 rounded-l rounded-r appearance-none sm:rounded-l-none focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none">
     </div>
   </div>
-  <table class="min-w-full leading-normal mt-6">
-    <thead>
-      <tr>
-        <th
-          class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
-          #
-        </th>
-        <th
-          class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
-          PROFILE
-        </th>
-        <th
-          class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
-          EMAIL
-        </th>
-        <th
-          class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
-          ROLE
-        </th>
-        <th
-          class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
-          CREATED DATE
-        </th>
-        <th
-          class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
-          UPDATED DATE
-        </th>
-        <th
-          class="px-8 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
-          ACTION
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="(u, index) in paginatedTableData" :key="index">
-        <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-          <div class="flex items-center">
-            <div>
-              <p class="text-gray-900 whitespace-nowrap">
-                {{ u.id }}
-              </p>
-            </div>
-          </div>
-        </td>
-        <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-          <div class="flex items-center">
-            <div>
-              <img class="w-8 h-8 rounded-full" :src="u.profile">
-              <!-- <p class="text-gray-900 whitespace-nowrap">
-                      {{ u.profile }}
-                    </p> -->
-            </div>
-          </div>
-        </td>
-        <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-          <div class="flex items-center">
-            <div>
-              <p class="text-gray-900 whitespace-nowrap">
-                {{ u.email }}
-              </p>
-            </div>
-          </div>
-        </td>
-        <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-          <div class="flex items-center">
-            <div>
-              <p class="text-gray-900 whitespace-nowrap">
-                {{ u.role }}
-              </p>
-            </div>
-          </div>
-        </td>
-        <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-          <div class="flex items-center">
-            <div>
-              <p class="text-gray-900 whitespace-nowrap">
-                {{ u.created }}
-              </p>
-            </div>
-          </div>
-        </td>
-        <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-          <div class="flex items-center">
-            <div>
-              <p class="text-gray-900 whitespace-nowrap">
-                {{ u.updated }}
-              </p>
-            </div>
-          </div>
-        </td>
-        <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-          <div class="flex items-center">
-            <div>
-              <p class="text-gray-900 whitespace-nowrap">
-                <a href="#"
-                  class="'absolute mx-3 inset-0 bg-blue-200 rounded-md p-2 px-5 text-indigo-600 hover:text-indigo-900">Edit</a>
-                <a href="#" class="'absolute inset-0 bg-red-400 rounded-md p-2 px-3">Delete</a>
-                <!-- {{ u.action }} -->
-              </p>
-            </div>
-          </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <div class="flex flex-col items-center px-5 py-5 bg-white border-t xs:flex-row xs:justify-between">
-    <span class="text-xs text-gray-900 xs:text-sm">Showing 1 to 4 of 50 Entries</span>
 
-    <div class="inline-flex mt-2 xs:mt-0">
-      <button class="px-4 py-2 text-sm font-semibold text-gray-800 bg-gray-300 rounded-l hover:bg-gray-400">
-        Prev
-      </button>
-      <button class="px-4 py-2 text-sm font-semibold text-gray-800 bg-gray-300 rounded-r hover:bg-gray-400">
-        Next
-      </button>
+  <div class="py-4 -mx-4 overflow-x-auto sm:-mx-11 sm:px-8">
+    <div class="inline-block min-w-full overflow-hidden align-middle border-b border-gray-200 shadow sm:rounded-lg">
+      <table class="min-w-full leading-normal">
+        <thead>
+          <tr>
+            <th
+              class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
+              #
+            </th>
+            <th
+              class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
+              PROFILE
+            </th>
+            <th
+              class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
+              EMAIL
+            </th>
+            <th
+              class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
+              ROLE
+            </th>
+            <th
+              class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
+              CREATED DATE
+            </th>
+            <th
+              class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
+              UPDATED DATE
+            </th>
+            <th
+              class="px-8 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
+              ACTION
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="item in computedData" :key="item.id">
+            <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+              <div class="flex items-center">
+                <div>
+                  <p class="text-gray-900 whitespace-nowrap">
+                    {{ item.id }}
+                  </p>
+                </div>
+              </div>
+            </td>
+            <td class=" py-5 text-sm bg-white border-b border-gray-200">
+              <div class="flex items-center">
+                <div>
+                  <!-- <img class="w-8 h-8 rounded-full" :src="item.profile"> -->
+                  <p class="text-gray-900 whitespace-nowrap">
+                    {{ item.profile }}
+                  </p>
+                </div>
+              </div>
+            </td>
+            <td class="py-5 text-sm bg-white border-b border-gray-200">
+              <div class="flex items-center">
+                <div>
+                  <p class="text-gray-900 whitespace-nowrap">
+                    {{ item.email }}
+                  </p>
+                </div>
+              </div>
+            </td>
+            <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+              <div class="flex items-center">
+                <div>
+                  <p class="text-gray-900 whitespace-nowrap">
+                    {{ item.role }}
+                  </p>
+                </div>
+              </div>
+            </td>
+            <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+              <div class="flex items-center">
+                <div>
+                  <p class="text-gray-900 whitespace-nowrap">
+                    {{ item.created_at }}
+                  </p>
+                </div>
+              </div>
+            </td>
+            <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+              <div class="flex items-center">
+                <div>
+                  <p class="text-gray-900 whitespace-nowrap">
+                    {{ item.updated_at }}
+                  </p>
+                </div>
+              </div>
+            </td>
+            <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+              <div class="flex items-center">
+                <div>
+                  <p class="text-gray-900 whitespace-nowrap">
+                    <a href="#"
+                      class="'absolute mx-3 inset-0 bg-blue-200 rounded-md p-2 px-5 text-indigo-600 hover:text-indigo-900">Edit</a>
+                    <button class="'absolute mx-3 inset-0 bg-red-600 rounded-md p-2 px-3 text-white hover:text-red-200"
+                      @click="deletebtn = true">
+                      Delete
+                    </button>
+                  <div :class="`modal ${!deletebtn && 'opacity-0 pointer-events-none'
+                    } z-50 fixed w-full h-full top-0 left-0 flex items-center justify-center`">
+                    <div class="absolute w-full h-full bg-gray-900 opacity-20 modal-overlay" @click="deletebtn = false" />
+
+                    <div
+                      class="z-50 w-11/12 mx-auto overflow-y-auto bg-white rounded shadow-lg modal-container md:max-w-md">
+                      <div
+                        class="absolute top-0 right-0 z-50 flex flex-col items-center mt-4 mr-4 text-sm text-white cursor-pointer modal-close">
+                        <svg class="text-white fill-current" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                          viewBox="0 0 18 18">
+                          <path
+                            d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z" />
+                        </svg>
+                        <span class="text-sm">(Esc)</span>
+                      </div>
+
+                      <!-- Add margin if you want to see some of the overlay behind the modal -->
+                      <div class="px-6 py-4 text-left modal-content">
+                        <!-- Title -->
+                        <div class="flex items-center justify-between pb-3">
+                          <p class="text-2xl font-bold">
+                            Delete Category Name
+                          </p>
+                          <div class="z-50 cursor-pointer modal-close" @click="deletebtn = false">
+                            <svg class="text-black fill-current" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                              viewBox="0 0 18 18">
+                              <path
+                                d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z" />
+                            </svg>
+                          </div>
+                        </div>
+
+                        <!-- Body -->
+                        <p class="text-md font-normal tracking-wider text-left text-gray-900 mb-3">Are you sure you want
+                          to delete this Category?</p>
+
+                        <!-- Footer -->
+                        <div class="flex justify-end pt-2">
+                          <button
+                            class="p-3 px-6 py-3 mr-2 text-indigo-500 bg-transparent rounded-lg hover:bg-gray-100 hover:text-indigo-400 focus:outline-none"
+                            @click="deletebtn = false">
+                            Close
+                          </button>
+                          <button
+                            class="px-4 py-2 mt-1 font-medium tracking-wide text-white bg-red-700 rounded-md hover:bg-red-500 focus:outline-none"
+                            @click="deletebtn = false">
+                            Delete
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- {{ u.action }} -->
+                  </p>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="flex flex-col items-center px-5 py-5 bg-white border-t xs:flex-row xs:justify-between">
+        <span class="text-xs text-gray-900 xs:text-sm">Showing 1 to 4 of 50 Entries</span>
+
+        <div class="inline-flex mt-2 xs:mt-0">
+          <button class="px-4 py-2 text-sm font-semibold text-gray-800 bg-gray-300 rounded-l hover:bg-gray-400">
+            Prev
+          </button>
+          <button class="px-4 py-2 text-sm font-semibold text-gray-800 bg-gray-300 rounded-r hover:bg-gray-400">
+            Next
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </template>

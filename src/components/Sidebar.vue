@@ -99,7 +99,7 @@ const inactiveClass = ref(
         </router-link>
 
         <router-link class="flex items-center px-6 py-2 mt-4 duration-200 border-l-4"
-          :class="[$route.name === 'User' ? activeClass : inactiveClass]" to="/user">
+          :class="[$route.name === 'userMangement' ? activeClass : inactiveClass]" to="/userMangement">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
             class="w-6 h-6">
             <path stroke-linecap="round" stroke-linejoin="round"

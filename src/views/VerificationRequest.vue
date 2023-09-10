@@ -125,19 +125,19 @@ const {
                   </div>
                 </div>
               </td>
-              <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+              <td class="px-5 py-5 text-sm bg-white">
                 <div class="flex items-center">
                   <span :class="`relative inline-block px-3 py-1 text-green-900 leading-tight`">
-                  <span aria-hidden :class="`absolute inset-0 bg-green-200 opacity-50 rounded-full`" />
-                  <span class="relative text-green-600">{{ u.status }}</span>
+                  <span aria-hidden :class="`absolute inset-0 bg-green-400 opacity-50 rounded-full`" />
+                  <span class="relative text-green-700">{{ u.status }}</span>
                 </span>
                 </div>
               </td>
               <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
                 <div class="flex items-center">
                   <div>
-                    <p class="text-gray-900 whitespace-nowrap">
-                      <a href="#" class="`absolute inset-0 bg-gray-200 rounded-full p-2 px-3">Details</a>
+                    <p class="whitespace-nowrap">
+                      <a href="#" class="`absolute inset-0 text-white bg-gray-500 rounded-md p-2 px-3">Details</a>
                       <!-- {{ u.action }} -->
                     </p>
                   </div>

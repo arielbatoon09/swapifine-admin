@@ -50,8 +50,8 @@ const routes: RouteRecordRaw[] = [
     component: UserTransaction,
   },
   {
-    path: '/user',
-    name: 'User',
+    path: '/userMangement',
+    name: 'userMangement',
     component: UserManagement,
   },
   {
