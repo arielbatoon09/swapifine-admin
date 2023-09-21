@@ -10,6 +10,10 @@ const fetchData = async () => {
   try {
     const response = await axios.get('/api/userVerification/list');
     data.value = response.data;
+    
+    if(response.data.source == "CategoryNotFound"){
+      data.value = null;
+    }
   } catch (error) {
     console.error("Error fetching data", error);
   }

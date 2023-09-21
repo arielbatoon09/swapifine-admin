@@ -42,6 +42,10 @@ const fetchData = async () => {
   try {
     const response = await axios.get('/api/admin/list');
     data.value = response.data;
+
+    if(response.data.source == "AdminsNotFound"){
+      data.value = null;
+    }
   } catch (error) {
     console.error("Error fetching data", error);
   }

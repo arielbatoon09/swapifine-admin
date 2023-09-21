@@ -2,6 +2,13 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
+const handleLogin = async (id) => {
+  try{
+    alert("You are now log in");
+  } catch (error) {
+    console.error('Error updating data:', error);
+  }
+}
 
 </script>
 
@@ -10,7 +17,7 @@ import { useRouter } from 'vue-router'
     <div class="w-full max-w-sm p-6 bg-white rounded-md shadow-md">
       <div class="flex flex-col items-center justify-center gap-3">
         <img src="../assets/img/swapifine-logo.png" width="62" height="62">
-        <span class="text-2xl font-semibold text-gray-700">Swapifine Admin Panel</span>
+        <span class="text-2xl font-bold text-gray-700">Admin Panel</span>
       </div>
 
       <form class="mt-4" @submit.prevent="">
@@ -43,7 +50,7 @@ import { useRouter } from 'vue-router'
         <div class="mt-2">
           <button
             type="submit"
-            class="w-full px-4 py-4 text-sm text-center text-white btn-clr-primary rounded-md"
+           @click="handleLogin" class="w-full px-4 py-4 text-sm text-center text-white btn-clr-primary rounded-md"
           >
             Sign in
           </button>

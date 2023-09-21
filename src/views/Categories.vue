@@ -40,6 +40,10 @@ const fetchData = async () => {
   try {
     const response = await axios.get('/api/category/list');
     data.value = response.data;
+
+    if(response.data.source == "CategoryNotFound"){
+      data.value = null;
+    }
   } catch (error) {
     console.error("Error fetching data", error);
   }
@@ -311,7 +315,6 @@ const computedData = computed(() => {
                         <input
                           class="w-full mt-2 border-gray-200 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500 mb-3"
                           v-model="form.category_name" type="text" name="fullname" placeholder="New Category Name">
-
                         <!-- Footer -->
                         <div class="flex justify-end pt-2">
                           <button

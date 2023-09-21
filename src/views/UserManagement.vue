@@ -47,6 +47,11 @@ const fetchData = async () => {
   try {
     const response = await axios.get('/api/user/list');
     data.value = response.data;
+
+    if(response.data.source == "UserListNotFound"){
+      data.value = null;
+    }
+    
   } catch (error) {
     console.error("Error fetching data", error);
   }
