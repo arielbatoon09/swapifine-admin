@@ -7,7 +7,7 @@ const isSidebarOpen = ref(false);
 const router = useRouter();
 
 const toggleSidebar = () => {
-  isSidebarOpen.value = !isSidebarOpen.value;
+  isSidebarOpen.value =! isSidebarOpen.value;
 };
 
 const closeSidebar = () => {

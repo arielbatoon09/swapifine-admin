@@ -5,6 +5,7 @@ import { ref, computed, onMounted } from 'vue';
 
 const isOpen = ref(false);
 const editbtn = ref(false);
+const idUpdate = ref(null);
 const deletebtn = ref(false);
 const idDelete = ref(null);
 const data = ref([]);
@@ -34,11 +35,6 @@ const handleCategory = async () => {
   }
 }
 
-const deleteId = async (id) => {
-  deletebtn.value = true;
-  idDelete.value = id;
-}
-
 // GET ALL CATEGORIES
 const fetchData = async () => {
   try {
@@ -49,9 +45,42 @@ const fetchData = async () => {
   }
 }
 
+const updateId = async (id) => {
+  editbtn.value = true;
+  idUpdate.value = id;
+}
+const handleCategoryUpdate = async (id) => {
+  try {
+    const { category_name } = form.value;
+
+    const response = await axios.post('api/category/update', {
+      id: id,
+      category_name: category_name,
+    });
+
+    if (response.data.status === 'success') {
+      form.value.category_name = ''; 
+      editbtn.value = false; 
+
+      console.log(response.data);
+      fetchData(); // Refresh the data
+    } else {
+      console.error('Update failed:', response.data.message);
+    }
+  } catch (error) {
+    console.error('Error updating data:', error);
+  }
+};
+
+
+const deleteId = async (id) => {
+  deletebtn.value = true;
+  idDelete.value = id;
+}
+
 const handleDelete = async (id) => {
   try {
-    const response = await axios.delete(`/api/category/delete/${id}`);
+    const response = await axios.post(`/api/category/delete/${id}`);
     
     if (response.data.status === "success") {
       deletebtn.value = false;
@@ -243,7 +272,7 @@ const computedData = computed(() => {
                   <!-- UPDATE MODAL -->
                   <button
                     class="'absolute inset-0 bg-blue-600 rounded-md p-2 px-5 text-white hover:text-indigo-200"
-                    @click="editbtn = true">
+                    @click="updateId(item.id)">
                     Edit
                   </button>
                   <div :class="`modal ${!editbtn && 'opacity-0 pointer-events-none'
@@ -281,7 +310,7 @@ const computedData = computed(() => {
                         <!-- Body -->
                         <input
                           class="w-full mt-2 border-gray-200 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500 mb-3"
-                           type="text" name="fullname" placeholder="Category Name">
+                          v-model="form.category_name" type="text" name="fullname" placeholder="New Category Name">
 
                         <!-- Footer -->
                         <div class="flex justify-end pt-2">
@@ -292,7 +321,7 @@ const computedData = computed(() => {
                           </button>
                           <button
                             class="px-6 py-3 font-medium tracking-wide text-white bg-indigo-600 rounded-md hover:bg-indigo-500 focus:outline-none"
-                            @click="editbtn = false">
+                            @click="handleCategoryUpdate(idUpdate)">
                             Save
                           </button>
                         </div>

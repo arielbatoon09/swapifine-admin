@@ -1,9 +1,27 @@
 <script setup lang="ts">
 import { verificationTableData } from '../composables/verificationTableData'
+import axios from 'axios';
+import { ref, computed, onMounted } from 'vue';
 
-const {
-  paginatedTableData,
-} = verificationTableData()
+const data = ref([]);
+const deletebtn = ref(false);
+
+const fetchData = async () => {
+  try {
+    const response = await axios.get('/api/userVerification/list');
+    data.value = response.data;
+  } catch (error) {
+    console.error("Error fetching data", error);
+  }
+}
+onMounted(() => {
+  fetchData();
+});
+
+const computedData = computed(() => {
+  console.log(data.value);
+  return data.value;
+});
 </script>
 
 <template>
@@ -59,10 +77,10 @@ const {
                 #
               </th>
               <th class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
-                FIRST NAME
+                USER ID
               </th>
               <th class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
-                LAST NAME
+                LEGAL NAME
               </th>
               <th class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
                 EMAIL
@@ -79,12 +97,12 @@ const {
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(u, index) in paginatedTableData" :key="index">
+            <tr v-for="item in computedData" :key="item.id">
               <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
                 <div class="flex items-center">
                   <div>
                     <p class="text-gray-900 whitespace-nowrap">
-                      {{ u.id }}
+                      {{ item.id }}
                     </p>
                   </div>
                 </div>
@@ -93,7 +111,7 @@ const {
                 <div class="flex items-center">
                   <div>
                     <p class="text-gray-900 whitespace-nowrap">
-                      {{ u.firstname }}
+                      {{ item.user_id }}
                     </p>
                   </div>
                 </div>
@@ -102,7 +120,7 @@ const {
                 <div class="flex items-center">
                   <div>
                     <p class="text-gray-900 whitespace-nowrap">
-                      {{ u.lastname }}
+                      {{ item.legalname }}
                     </p>
                   </div>
                 </div>
@@ -111,7 +129,7 @@ const {
                 <div class="flex items-center">
                   <div>
                     <p class="text-gray-900 whitespace-nowrap">
-                      {{ u.email }}
+                      {{ item.email }}
                     </p>
                   </div>
                 </div>
@@ -120,7 +138,7 @@ const {
                 <div class="flex items-center">
                   <div>
                     <p class="text-gray-900 whitespace-nowrap">
-                      {{ u.created }}
+                      {{ item.created }}
                     </p>
                   </div>
                 </div>
@@ -129,66 +147,93 @@ const {
                 <div class="flex items-center">
                   <span :class="`relative inline-block px-3 py-1 text-green-900 leading-tight`">
                   <span aria-hidden :class="`absolute inset-0 bg-green-400 opacity-50 rounded-full`" />
-                  <span class="relative text-green-700">{{ u.status }}</span>
+                  <span class="relative text-green-700">{{ item.status }}</span>
                 </span>
                 </div>
               </td>
-              <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+              <td class=" py-5 text-sm bg-white border-b border-gray-200">
                 <div class="flex items-center">
-                  <div>
-                    <p class="whitespace-nowrap">
+                  <div class="flex">
+                    <button
+                    class="'absolute mx-3 inset-0 bg-gray-500 rounded-md p-2 px-3 text-white hover:text-gray-200"
+                    @click="deletebtn = true">
+                    Details
+                  </button>
+                    <select name="" id="" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+                    focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                      <option selected disabled>Action</option>
+                      <option value="1">Approve</option>
+                      <option value="0">Decline</option>
+                      <option value="delete">Delete</option>
+                    </select>
+                    <!-- <p class="whitespace-nowrap">
                       <a href="#" class="`absolute inset-0 text-white bg-gray-500 rounded-md p-2 px-3">Details</a>
-                      <!-- {{ u.action }} -->
+                      {{ u.action }}
                     </p>
+                    <button
+                    class="'absolute mx-3 inset-0 bg-gray-500 rounded-md p-2 px-3 text-white hover:text-gray-200"
+                    @click="deletebtn = true">
+                    Details
+                  </button>
+                    <button
+                    class="'absolute mx-3 inset-0 bg-red-600 rounded-md p-2 px-3 text-white hover:text-red-200"
+                    @click="deletebtn = true">
+                    Delete
+                  </button>
+                  <div :class="`modal ${!deletebtn && 'opacity-0 pointer-events-none'
+                    } z-50 fixed w-full h-full top-0 left-0 flex items-center justify-center`">
+                    <div class="absolute w-full h-full bg-gray-900 opacity-20 modal-overlay" @click="deletebtn = false" />
+
+                    <div
+                      class="z-50 w-11/12 mx-auto overflow-y-auto bg-white rounded shadow-lg modal-container md:max-w-md">
+                      <div
+                        class="absolute top-0 right-0 z-50 flex flex-col items-center mt-4 mr-4 text-sm text-white cursor-pointer modal-close">
+                        <svg class="text-white fill-current" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                          viewBox="0 0 18 18">
+                          <path
+                            d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z" />
+                        </svg>
+                        <span class="text-sm">(Esc)</span>
+                      </div>
+
+                      <div class="px-6 py-4 text-left modal-content">
+
+                        <div class="flex items-center justify-between pb-3">
+                          <p class="text-2xl font-bold">
+                            Delete Category Name
+                          </p>
+                          <div class="z-50 cursor-pointer modal-close" @click="deletebtn = false">
+                            <svg class="text-black fill-current" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                              viewBox="0 0 18 18">
+                              <path
+                                d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z" />
+                            </svg>
+                          </div>
+                        </div>
+
+                        <p class="text-md font-normal tracking-wider text-left text-gray-900 mb-3">Are you sure you want to delete this Category?</p>
+
+                        <div class="flex justify-end pt-2">
+                          <button
+                            class="p-3 px-6 py-3 mr-2 text-indigo-500 bg-transparent rounded-lg hover:bg-gray-100 hover:text-indigo-400 focus:outline-none"
+                            @click="deletebtn = false">
+                            Close
+                          </button>
+                          <button
+                            class="px-4 py-2 mt-1 font-medium tracking-wide text-white bg-red-700 rounded-md hover:bg-red-500 focus:outline-none"
+                            @click="deletebtn = false">
+                            Delete
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div> -->
                   </div>
                 </div>
               </td>
             </tr>
           </tbody>
         </table>
-        <!-- <table class="min-w-full leading-normal">
-          <tbody>
-            <tr v-for="(u, index) in paginatedTableData" :key="index">
-              <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                <div class="flex items-center">
-                  <div class="flex-shrink-0 w-10 h-10">
-                    <img class="w-full h-full rounded-full" :src="u.picture" alt="profile pic">
-                  </div>
-
-                  <div class="ml-3">
-                    <p class="text-gray-900 whitespace-nowrap">
-                      {{ u.name }}
-                    </p>
-                  </div>
-                </div>
-              </td>
-              <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                <p class="text-gray-900 whitespace-nowrap">
-                  {{ u.role }}
-                </p>
-              </td>
-              <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                <p class="text-gray-900 whitespace-nowrap">
-                  {{ u.created }}
-                </p>
-              </td>
-              <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                <span class="relative inline-block px-3 py-1 text-red-900 leading-tight">
-                  <span aria-hidden class="absolute inset-0 bg-red-200 opacity-50 rounded-full" />
-                  <span class="relative">{{ u.status }}</span>
-                </span>
-                <span :class="`relative inline-block px-3 py-1 text-green-900 leading-tight`">
-                  <span aria-hidden :class="`absolute inset-0 bg-green-200 opacity-50 rounded-full`" />
-                  <span class="relative">{{ u.status }}</span>
-                </span>                
-              </td>
-              <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
-                <a href="#" class=" ml-3 text-red-400 hover:text-red-600">Delete</a>
-              </td>
-            </tr>
-          </tbody>
-        </table> -->
         <div class="flex flex-col items-center px-5 py-5 bg-white border-t xs:flex-row xs:justify-between">
           <span class="text-xs text-gray-900 xs:text-sm">Showing 1 to 4 of 50 Entries</span>
 

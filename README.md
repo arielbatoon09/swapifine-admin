@@ -36,7 +36,6 @@ pnpm dev
 ```
 pnpm build
 ```
-
-## License & copyright
-
-Licensed under the [MIT License](LICENSE.md).
+## STEPS TO RUN
+1. npm install
+2. npm run dev
