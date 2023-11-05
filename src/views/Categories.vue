@@ -14,11 +14,12 @@ const form = ref({
   category_name: '',
 });
 
+// ADD CATEGORY
 const handleCategory = async () => {
   try {
     const { category_name } = form.value;
 
-    const response = await axios.post('/api/add/category', {
+    const response = await axios.post('/api/admin/category/post', {
       category_name: category_name,
     });
 
@@ -38,8 +39,9 @@ const handleCategory = async () => {
 // GET ALL CATEGORIES
 const fetchData = async () => {
   try {
-    const response = await axios.get('/api/category/list');
-    data.value = response.data;
+    const response = await axios.get('/api/admin/category/list');
+    data.value = response.data.data;
+    console.log(data.value);
 
     if(response.data.source == "CategoryNotFound"){
       data.value = null;
@@ -49,6 +51,7 @@ const fetchData = async () => {
   }
 }
 
+// UPDATE CATEGORY
 const updateId = async (id) => {
   editbtn.value = true;
   idUpdate.value = id;
@@ -57,7 +60,7 @@ const handleCategoryUpdate = async (id) => {
   try {
     const { category_name } = form.value;
 
-    const response = await axios.post('api/category/update', {
+    const response = await axios.post('api/admin/category/update', {
       id: id,
       category_name: category_name,
     });
@@ -77,6 +80,7 @@ const handleCategoryUpdate = async (id) => {
 };
 
 
+// DELETE CATEGORY
 const deleteId = async (id) => {
   deletebtn.value = true;
   idDelete.value = id;
@@ -84,7 +88,7 @@ const deleteId = async (id) => {
 
 const handleDelete = async (id) => {
   try {
-    const response = await axios.post(`/api/category/delete/${id}`);
+    const response = await axios.post(`/api/admin/category/delete/${id}`);
     
     if (response.data.status === "success") {
       deletebtn.value = false;
@@ -295,9 +299,7 @@ const computedData = computed(() => {
                         <span class="text-sm">(Esc)</span>
                       </div>
 
-                      <!-- Add margin if you want to see some of the overlay behind the modal -->
                       <div class="px-6 py-4 text-left modal-content">
-                        <!-- Title -->
                         <div class="flex items-center justify-between pb-3">
                           <p class="text-2xl font-bold">
                             Edit Category Name
@@ -311,11 +313,9 @@ const computedData = computed(() => {
                           </div>
                         </div>
 
-                        <!-- Body -->
                         <input
                           class="w-full mt-2 border-gray-200 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500 mb-3"
                           v-model="form.category_name" type="text" name="fullname" placeholder="New Category Name">
-                        <!-- Footer -->
                         <div class="flex justify-end pt-2">
                           <button
                             class="p-3 px-6 py-3 mr-2 text-indigo-500 bg-transparent rounded-lg hover:bg-gray-100 hover:text-indigo-400 focus:outline-none"
@@ -354,9 +354,7 @@ const computedData = computed(() => {
                         <span class="text-sm">(Esc)</span>
                       </div>
 
-                      <!-- Add margin if you want to see some of the overlay behind the modal -->
                       <div class="px-6 py-4 text-left modal-content">
-                        <!-- Title -->
                         <div class="flex items-center justify-between pb-3">
                           <p class="text-2xl font-bold">
                             Delete Category Name
@@ -370,10 +368,8 @@ const computedData = computed(() => {
                           </div>
                         </div>
 
-                        <!-- Body -->
                         <p class="text-md font-normal tracking-wider text-left text-gray-900 mb-3">Are you sure you want to delete this Category?</p>
 
-                        <!-- Footer -->
                         <div class="flex justify-end pt-2">
                           <button
                             class="p-3 px-6 py-3 mr-2 text-indigo-500 bg-transparent rounded-lg hover:bg-gray-100 hover:text-indigo-400 focus:outline-none"

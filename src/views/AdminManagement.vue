@@ -211,8 +211,8 @@ const computedData = computed(() => {
     </div>
   </div>
 
-  <div class="py-4 -mx-4 overflow-x-auto sm:-mx-12 sm:px-10">
-    <div class="inline-block min-w-full overflow-hidden align-middle border-b border-gray-200 shadow sm:rounded-lg">
+  <div class="px-4 py-4 -mx-4 overflow-x-auto sm:-mx-8 sm:px-8">
+    <div class="inline-block min-w-full overflow-hidden rounded-lg shadow">
       <table class="min-w-full leading-normal">
         <thead>
           <tr>
@@ -253,7 +253,7 @@ const computedData = computed(() => {
         <tbody>
           <tr v-for="item in computedData" :key="item.id">
             <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-              <div class="flex items-center">
+              <div class="text-gray-900 whitespace-nowrap">
                 <div>
                   <p class="text-gray-900 whitespace-nowrap">
                     {{ item.id }}
@@ -262,7 +262,7 @@ const computedData = computed(() => {
               </div>
             </td>
             <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-              <div class="flex items-center">
+              <div class="text-gray-900 whitespace-nowrap">
                 <div>
                   <!-- <img class="w-8 h-8 rounded-full" :src="item.profile"> -->
                   <p class="text-gray-900 whitespace-nowrap">
@@ -272,7 +272,7 @@ const computedData = computed(() => {
               </div>
             </td>
             <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-              <div class="flex items-center">
+              <div class="text-gray-900 whitespace-nowrap">
                 <div>
                   <p class="text-gray-900 whitespace-nowrap">
                     {{ item.fullname }}
@@ -281,7 +281,7 @@ const computedData = computed(() => {
               </div>
             </td>
             <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-              <div class="flex items-center">
+              <div class="text-gray-900 whitespace-nowrap">
                 <div>
                   <p class="text-gray-900 whitespace-nowrap">
                     {{ item.email }}
@@ -290,7 +290,7 @@ const computedData = computed(() => {
               </div>
             </td>
             <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-              <div class="flex items-center">
+              <div class="text-gray-900 whitespace-nowrap">
                 <div>
                   <p class="text-gray-900 whitespace-nowrap">
                     {{ item.role }}
@@ -299,7 +299,7 @@ const computedData = computed(() => {
               </div>
             </td>
             <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-              <div class="flex items-center">
+              <div class="text-gray-900 whitespace-nowrap">
                 <div>
                   <p class="text-gray-900 whitespace-nowrap">
                     {{ item.created_at }}
@@ -308,7 +308,7 @@ const computedData = computed(() => {
               </div>
             </td>
             <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-              <div class="flex items-center">
+              <div class="text-gray-900 whitespace-nowrap">
                 <div>
                   <p class="text-gray-900 whitespace-nowrap">
                     {{ item.updated_at }}
@@ -317,9 +317,8 @@ const computedData = computed(() => {
               </div>
             </td>
             <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-              <div class="flex items-center">
-                <div>
-                  <p class="text-gray-900 whitespace-nowrap">
+              <div class="text-gray-900 whitespace-nowrap">
+                <div class="mx-4">
                     <!-- EDIT BUTTON -->
                     <button class="'absolute inset-0 bg-blue-600 rounded-md p-2 px-5 text-white hover:text-indigo-200"
                           @click="updateAdmin(item.id)">
@@ -443,7 +442,6 @@ const computedData = computed(() => {
                     </div>
                   </div>
                   <!-- {{ u.action }} -->
-                  </p>
                 </div>
               </div>
             </td>

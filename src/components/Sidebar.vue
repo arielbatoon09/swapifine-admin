@@ -97,7 +97,7 @@ const inactiveClass = ref(
           </div>
           <!-- Toggled Dropdown -->
           <div v-show="isToggleDropdown" class="px-6 text-white">
-            <router-link class="flex items-center px-6 py-2 mt-4 duration-200 border-l-4"
+            <!-- <router-link class="flex items-center px-6 py-2 mt-4 duration-200 border-l-4"
               :class="[$route.name === 'TransactionHistory' ? activeClass : inactiveClass]" to="/TransactionHistory">
               <span class="mx-4">Revenue History</span>
             </router-link>
@@ -105,6 +105,11 @@ const inactiveClass = ref(
             <router-link class="flex items-center px-6 py-2 mt-4 duration-200 border-l-4"
               :class="[$route.name === 'UserTransaction' ? activeClass : inactiveClass]" to="/UserTransaction">
               <span class="mx-4">User Transaction</span>
+            </router-link> -->
+
+            <router-link class="flex items-center px-6 py-2 mt-4 duration-200 border-l-4"
+              :class="[$route.name === 'UserOrder' ? activeClass : inactiveClass]" to="/UserOrder">
+              <span class="mx-4">User Order</span>
             </router-link>
           </div>
         </div>        

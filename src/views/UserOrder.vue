@@ -11,7 +11,7 @@ const {
 
 <template>
   <h3 class="text-gray-700 text-3xl font-medium">
-    User Transaction
+    User Order
   </h3>
   <div class="flex flex-col mt-3 sm:flex-row mt-6">
     <div class="flex">
