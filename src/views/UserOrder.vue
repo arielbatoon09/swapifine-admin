@@ -1,12 +1,35 @@
 <script setup lang="ts">
-import { userTransactionTableData } from '../composables/userTransactionTableData'
-import { ref } from 'vue'
+import axios from 'axios';
+import { ref, onMounted } from 'vue'
 
 const open = ref(false)
 
-const {
-  paginatedTableData,
-} = userTransactionTableData()
+const data = ref ([]);
+const dataByID = ref ([]);
+
+const fetchData = async () => {
+  try{
+    const response = await axios.get('/api/transaction/all-list');
+    if(response.data != null){
+      data.value = response.data.data;
+    }
+    console.log(response.data);
+  } catch (error) {
+    console.error("error fetching data", error);
+  }
+};
+
+// const userOrderDetails = async (id) => {
+//   try {
+//     const response = await axios.post('/api');
+//   } catch (error) {
+//     console.error("error fetching data", error);
+//   }
+// };
+
+onMounted(() => {
+  fetchData();
+});
 </script>
 
 <template>
@@ -56,15 +79,19 @@ const {
           </th>
           <th
             class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
-            PROFILE
+            Item name
           </th>
           <th
             class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
-            NAME/BUSINESS
+            Vendor name
           </th>
           <th
             class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
-            TIMESTAMP
+            buyer name
+          </th>
+          <th
+            class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
+            payment method
           </th>
           <th
             class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
@@ -85,31 +112,12 @@ const {
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(u, index) in paginatedTableData" :key="index">
+        <tr v-for="(item, index) in data" :key="item.id">
           <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
             <div class="flex items-center">
               <div>
                 <p class="text-gray-900 whitespace-nowrap">
-                  {{ u.id }}
-                </p>
-              </div>
-            </div>
-          </td>
-          <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-            <div class="flex items-center">
-              <div>
-                <img class="w-8 h-8 rounded-full" :src="u.profile">
-                <!-- <p class="text-gray-900 whitespace-nowrap">
-                      {{ u.profile }}
-                    </p> -->
-              </div>
-            </div>
-          </td>
-          <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-            <div class="flex items-center">
-              <div>
-                <p class="text-gray-900 whitespace-nowrap">
-                  {{ u.name }}
+                  {{ index+1 }}
                 </p>
               </div>
             </div>
@@ -118,7 +126,7 @@ const {
             <div class="flex items-center">
               <div>
                 <p class="text-gray-900 whitespace-nowrap">
-                  {{ u.timestamp }}
+                  {{ item.item_name }}
                 </p>
               </div>
             </div>
@@ -127,7 +135,7 @@ const {
             <div class="flex items-center">
               <div>
                 <p class="text-gray-900 whitespace-nowrap">
-                  {{ u.transactionType }}
+                  {{ item.vendor_name }}
                 </p>
               </div>
             </div>
@@ -136,23 +144,52 @@ const {
             <div class="flex items-center">
               <div>
                 <p class="text-gray-900 whitespace-nowrap">
-                  {{ u.amount }}
+                  {{ item.buyer_name }}
                 </p>
               </div>
             </div>
           </td>
           <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
             <div class="flex items-center">
-              <span :class="`relative inline-block px-3 py-1 text-green-900 leading-tight`">
-                <span aria-hidden :class="`absolute inset-0 bg-green-400 opacity-50 rounded-full`" />
-                <span class="relative text-green-700">{{ u.status }}</span>
-              </span>
+              <div>
+                <p class="text-gray-900 whitespace-nowrap">
+                  {{ item.payment_method }}
+                </p>
+              </div>
+            </div>
+          </td>
+          <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+            <div class="flex items-center">
+              <div>
+                <p class="text-gray-900 whitespace-nowrap">
+                  {{ item.transaction_type }}
+                </p>
+              </div>
+            </div>
+          </td>
+          <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+            <div class="flex items-center">
+              <div>
+                <p class="text-gray-900 whitespace-nowrap">
+                  ₱{{ item.amount }}
+                </p>
+              </div>
+            </div>
+          </td>
+          <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+            <div class="flex items-center">
+                <span v-if="item.status != 'Cancelled'" class="relative inline-block px-4 py-1 text-green-900 bg-green-200 rounded">
+                  {{ item.status }}
+                </span>
+                <span v-else class="relative inline-block px-4 py-1 text-red-900 bg-red-200 rounded">
+                  {{ item.status }}
+                </span>
             </div>
           </td>
           <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
             <div class="flex items-center">
               <button
-                class="px-6 py-3 mt-3 font-medium tracking-wide text-white bg-indigo-600 rounded-md hover:bg-indigo-500 focus:outline-none"
+                class="px-6 py-3 font-medium tracking-wide text-white btn-clr-primary rounded-md"
                 @click="open = true">
                 Details
               </button>
@@ -193,7 +230,7 @@ const {
                       <div class="flex items-center">
                         <div>
                           <p class="text-gray-900 whitespace-nowrap mb-3">
-                            Transaction With:
+                            Item Name:
                           </p>
                         </div>
                       </div>
@@ -203,7 +240,20 @@ const {
                       <div class="flex items-center">
                         <div>
                           <p class="text-gray-900 whitespace-nowrap mb-3">
-                            Product: 
+                            Delivery Address:
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                      <div class="flex items-center">
+                        <div>
+                          <p class="text-gray-900 whitespace-wrap mb-3">
+                            User Notes: 
+                          </p>
+                          <p class="whitespace-wrap">
+                            
                           </p>
                         </div>
                       </div>
@@ -219,19 +269,24 @@ const {
                       </div>
                     </div>
 
+                    <div class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                      <div class="flex items-center">
+                        <div>
+                          <p class="text-gray-900 whitespace-nowrap">
+                            Updated Date: 
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
 
 
                     <!-- Footer -->
                     <div class="flex justify-end pt-2">
                       <button
-                        class="p-3 px-6 py-3 mr-2 text-indigo-500 bg-transparent rounded-lg hover:bg-gray-100 hover:text-indigo-400 focus:outline-none"
+                      class="px-6 py-3 font-medium tracking-wide text-white btn-clr-primary rounded-md"
                         @click="open = false">
                         Close
-                      </button>
-                      <button
-                        class="px-6 py-3 font-medium tracking-wide text-white bg-indigo-600 rounded-md hover:bg-indigo-500 focus:outline-none"
-                        @click="open = false">
-                        Action
                       </button>
                     </div>
                   </div>

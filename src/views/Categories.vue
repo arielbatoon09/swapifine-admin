@@ -117,60 +117,6 @@ const computedData = computed(() => {
     <h3 class="text-gray-700 text-3xl font-medium">
       Categories
     </h3>
-    <button class="px-6 py-3 mt-3 font-medium tracking-wide text-white btn-clr-primary rounded-md" @click="isOpen = true">
-      ADD CATEGORY
-    </button>
-    <div :class="`modal ${!isOpen && 'opacity-0 pointer-events-none'
-      } z-50 fixed w-full h-full top-0 left-0 flex items-center justify-center`">
-      <div class="absolute w-full h-full bg-gray-900 opacity-50 modal-overlay" @click="isOpen = false" />
-
-      <div class="z-50 w-11/12 mx-auto overflow-y-auto bg-white rounded shadow-lg modal-container md:max-w-md">
-        <div
-          class="absolute top-0 right-0 z-50 flex flex-col items-center mt-4 mr-4 text-sm text-white cursor-pointer modal-close">
-          <svg class="text-white fill-current" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
-            viewBox="0 0 18 18">
-            <path
-              d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z" />
-          </svg>
-          <span class="text-sm">(Esc)</span>
-        </div>
-
-        <!-- Add margin if you want to see some of the overlay behind the modal -->
-        <div class="px-6 py-4 text-left modal-content">
-          <!-- Title -->
-          <div class="flex items-center justify-between pb-3">
-            <p class="text-lg text-grey-700">
-              Add Category
-            </p>
-            <div class="z-50 cursor-pointer modal-close" @click="isOpen = false">
-              <svg class="text-black fill-current" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
-                viewBox="0 0 18 18">
-                <path
-                  d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z" />
-              </svg>
-            </div>
-          </div>
-
-          <!-- Body -->
-          <input
-            class="w-full mt-2 border-gray-200 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500 mb-3"
-            v-model="form.category_name" type="text" name="category" placeholder="Category">
-
-          <!-- Footer -->
-          <div class="flex justify-end pt-2">
-            <button
-              class="p-3 px-6 py-3 mr-2 text-indigo-500 bg-transparent rounded-lg hover:bg-gray-100 hover:text-indigo-400 focus:outline-none"
-              @click="isOpen = false">
-              Close
-            </button>
-            <button class="px-6 py-3 font-medium tracking-wide text-white btn-clr-primary rounded-md"
-              @click="handleCategory">
-              Send
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
   <div class="mt-6">
     <div class="flex flex-col mt-3 sm:flex-row ">
