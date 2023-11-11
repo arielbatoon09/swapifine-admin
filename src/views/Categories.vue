@@ -14,28 +14,6 @@ const form = ref({
   category_name: '',
 });
 
-// ADD CATEGORY
-const handleCategory = async () => {
-  try {
-    const { category_name } = form.value;
-
-    const response = await axios.post('/api/admin/category/post', {
-      category_name: category_name,
-    });
-
-    if (response.data.status == "success") {
-      form.value.category_name = '';
-      isOpen.value = false;
-    }
-
-    console.log(response.data);
-    fetchData();
-
-  } catch (error) {
-    console.error("Error:", error);
-  }
-}
-
 // GET ALL CATEGORIES
 const fetchData = async () => {
   try {
@@ -206,12 +184,12 @@ const computedData = computed(() => {
               </td>
               <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
                 <p class="text-gray-900 whitespace-nowrap">
-                  {{ item.totalPost }}
+                  {{ item.total_post }}
                 </p>
               </td>
               <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
                 <p class="text-gray-900 whitespace-nowrap">
-                  {{ item.created_at }}
+                  {{ item.created_date }}
                 </p>
               </td>
               <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
@@ -225,7 +203,8 @@ const computedData = computed(() => {
 
                   <!-- UPDATE MODAL -->
                   <button
-                    class="'absolute inset-0 bg-blue-600 rounded-md p-2 px-5 text-white hover:text-indigo-200"
+                  
+                    class="'absolute inset-0 btn-clr-primary rounded-md p-2 px-5 text-white hover:text-indigo-200"
                     @click="updateId(item.id)">
                     Edit
                   </button>
@@ -269,7 +248,7 @@ const computedData = computed(() => {
                             Close
                           </button>
                           <button
-                            class="px-6 py-3 font-medium tracking-wide text-white bg-indigo-600 rounded-md hover:bg-indigo-500 focus:outline-none"
+                            class="px-6 py-3 font-medium tracking-wide text-white btn-clr-primary rounded-md"
                             @click="handleCategoryUpdate(idUpdate)">
                             Save
                           </button>

@@ -234,7 +234,7 @@ const computedData = computed(() => {
             </th>
             <th
               class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
-              ROLE
+              STATUS
             </th>
             <th
               class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
@@ -293,7 +293,7 @@ const computedData = computed(() => {
               <div class="text-gray-900 whitespace-nowrap">
                 <div>
                   <p class="text-gray-900 whitespace-nowrap">
-                    {{ item.role }}
+                    {{ item.status }}
                   </p>
                 </div>
               </div>
@@ -320,7 +320,7 @@ const computedData = computed(() => {
               <div class="text-gray-900 whitespace-nowrap">
                 <div class="mx-4">
                     <!-- EDIT BUTTON -->
-                    <button class="'absolute inset-0 bg-blue-600 rounded-md p-2 px-5 text-white hover:text-indigo-200"
+                    <button class="'absolute inset-0 btn-clr-primary rounded-md p-2 px-5 text-white hover:text-indigo-200"
                           @click="updateAdmin(item.id)">
                           Edit
                         </button>
@@ -377,7 +377,7 @@ const computedData = computed(() => {
                                 Close
                               </button>
                               <button
-                                class="px-6 py-3 font-medium tracking-wide text-white bg-indigo-600 rounded-md hover:bg-indigo-500 focus:outline-none"
+                                class="px-6 py-3 font-medium tracking-wide text-white btn-clr-primary rounded-md"
                                 @click="handAdminUpdate(idUpdate)">
                                 Save
                               </button>

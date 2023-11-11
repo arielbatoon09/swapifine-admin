@@ -81,7 +81,7 @@ const inactiveClass = ref(
 
         <!-- Dropdown Menu -->
         <div @click="toggleDropdown" class="flex flex-col">
-          <div class="cursor-pointer flex items-center px-6 py-2 mt-4 duration-200 border-l-4" 
+          <div class="cursor-pointer flex items-center px-6 py-2 mt-4 duration-200 border-l-4"
             :class="toggleDropdown ? activeClass : inactiveClass">
             <svg class="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
               viewBox="0 0 19 20">
@@ -102,13 +102,23 @@ const inactiveClass = ref(
               :class="[$route.name === 'UserOrder' ? activeClass : inactiveClass]" to="/UserOrder">
               <span class="mx-4">User Order</span>
             </router-link>
-            
+
             <router-link class="flex items-center px-6 py-2 mt-4 duration-200 border-l-4"
               :class="[$route.name === 'CreditsRevenue' ? activeClass : inactiveClass]" to="/CreditsRevenue">
               <span class="mx-4">Credits Revenue</span>
             </router-link>
           </div>
-        </div>        
+        </div>
+
+        <router-link class="flex items-center px-6 py-2 mt-4 duration-200 border-l-4"
+          :class="[$route.name === 'Report' ? activeClass : inactiveClass]" to="/Report">
+          <svg class="w-[24px] h-[24px] text-gray-800 dark:text-white" aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+              d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+          </svg>
+          <span class="mx-4">Reported User</span>
+        </router-link>
 
         <router-link class="flex items-center px-6 py-2 mt-4 duration-200 border-l-4"
           :class="[$route.name === 'userMangement' ? activeClass : inactiveClass]" to="/userMangement">

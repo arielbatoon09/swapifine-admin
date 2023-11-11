@@ -155,13 +155,17 @@ const computedData = computed(() => {
           <table class="min-w-full">
             <thead>
               <tr>
-                <!-- <th
+                <th
                   class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
-                  id
-                </th> -->
+                  user id
+                </th>
                 <th
                   class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
                   fullname
+                </th>
+                <th
+                  class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
+                  email
                 </th>
                 <th
                   class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
@@ -171,24 +175,26 @@ const computedData = computed(() => {
                   class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
                   Status
                 </th>
-                <th
-                  class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
-                  Role
-                </th>
               </tr>
             </thead>
 
             <tbody class="bg-white">
               <tr v-for="item in computedData" :key="item.id">
-                <!-- <td class="px-6 py-4 border-b border-gray-200 whitespace-nowrap">
+                <td class="px-6 py-4 border-b border-gray-200 whitespace-nowrap">
                   <div class="text-sm font-medium leading-5 text-gray-900">
                     {{ item.id }}
                   </div>
-                </td> -->
+                </td>
 
                 <td class="px-6 py-4 border-b border-gray-200 whitespace-nowrap">
                   <div class="text-sm leading-5 text-gray-900">
                     {{ item.fullname }}
+                  </div>
+                </td>
+                <td class="px-6 py-4 border-b border-gray-200 whitespace-nowrap">
+                  <div class="text-sm leading-5 text-gray-900">
+                    {{ item.email }}
+                    321
                   </div>
                 </td>
                 <td class="px-6 py-4 border-b border-gray-200 whitespace-nowrap">
@@ -205,10 +211,6 @@ const computedData = computed(() => {
                       <span class="relative text-green-700">{{ item.status }}</span> active
                     </span>
                   </div>
-                </td>
-
-                <td class="px-6 py-4 border-b border-gray-200 whitespace-nowrap">
-                  {{ item.role }}
                 </td>
               </tr>
             </tbody>

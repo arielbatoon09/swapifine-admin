@@ -9,6 +9,7 @@ import UserTransaction from './views/UserTransaction.vue'
 import UserManagement from './views/UserManagement.vue'
 import UserOrder from './views/UserOrder.vue'
 import CreditsRevenue from './views/Credits.vue'
+import Report from './views/Report.vue'
 import AdminManagement from './views/AdminManagement.vue'
 import Settings from './views/Settings.vue'
 import Forms from './views/Forms.vue'
@@ -60,6 +61,11 @@ const routes: RouteRecordRaw[] = [
     path: '/CreditsRevenue',
     name: 'CreditsRevenue',
     component: CreditsRevenue,
+  },
+  {
+    path: '/Report',
+    name: 'Report',
+    component: Report,
   },
   {
     path: '/userMangement',

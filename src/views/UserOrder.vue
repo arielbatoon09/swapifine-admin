@@ -19,13 +19,18 @@ const fetchData = async () => {
   }
 };
 
-// const userOrderDetails = async (id) => {
-//   try {
-//     const response = await axios.post('/api');
-//   } catch (error) {
-//     console.error("error fetching data", error);
-//   }
-// };
+const userOrderDetailsByID = async (id) => {
+  try {
+    const response = await axios.post('/api/transaction/getTransactionsByID', {
+      id: id,
+    });
+      dataByID.value = response.data.data;
+
+      console.log(dataByID)
+  } catch (error) {
+    console.error("error fetching data", error);
+  }
+};
 
 onMounted(() => {
   fetchData();
@@ -190,7 +195,7 @@ onMounted(() => {
             <div class="flex items-center">
               <button
                 class="px-6 py-3 font-medium tracking-wide text-white btn-clr-primary rounded-md"
-                @click="open = true">
+                @click="open = true, userOrderDetailsByID(item.id)">
                 Details
               </button>
 
@@ -210,7 +215,7 @@ onMounted(() => {
                   </div>
 
                   <!-- Add margin if you want to see some of the overlay behind the modal -->
-                  <div class="px-6 py-4 text-left modal-content">
+                  <div v-for="dataID in dataByID" class="px-6 py-4 text-left modal-content">
                     <!-- Title -->
                     <div class="flex items-center justify-between pb-3">
                       <p class="text-2xl font-bold">
@@ -230,8 +235,9 @@ onMounted(() => {
                       <div class="flex items-center">
                         <div>
                           <p class="text-gray-900 whitespace-nowrap mb-3">
-                            Item Name:
+                            Item Name: 
                           </p>
+                          <p>{{ dataID.item_name }}</p>
                         </div>
                       </div>
                     </div>
@@ -242,6 +248,7 @@ onMounted(() => {
                           <p class="text-gray-900 whitespace-nowrap mb-3">
                             Delivery Address:
                           </p>
+                          <p>{{ dataID.delivery_address }}</p>
                         </div>
                       </div>
                     </div>
@@ -252,9 +259,7 @@ onMounted(() => {
                           <p class="text-gray-900 whitespace-wrap mb-3">
                             User Notes: 
                           </p>
-                          <p class="whitespace-wrap">
-                            
-                          </p>
+                          <p>{{ dataID.user_notes }}</p>
                         </div>
                       </div>
                     </div>
@@ -263,8 +268,9 @@ onMounted(() => {
                       <div class="flex items-center">
                         <div>
                           <p class="text-gray-900 whitespace-nowrap">
-                            Transaction Date: 
+                            Transaction Date:
                           </p>
+                          <p>{{ dataID.transaction_date }}</p>
                         </div>
                       </div>
                     </div>
@@ -273,8 +279,9 @@ onMounted(() => {
                       <div class="flex items-center">
                         <div>
                           <p class="text-gray-900 whitespace-nowrap">
-                            Updated Date: 
+                            Updated Date:
                           </p>
+                          <p>{{ dataID.updated_date }}</p>
                         </div>
                       </div>
                     </div>
