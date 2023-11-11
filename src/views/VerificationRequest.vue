@@ -216,7 +216,7 @@ const computedData = computed(() => {
                   <div class="absolute w-full h-full bg-gray-900 opacity-50 modal-overlay" @click="open = false" />
 
                   <div
-                    class="z-50 w-11/12 mx-auto overflow-y-auto bg-white rounded shadow-lg modal-container md:max-w-md">
+                    class="z-50 w-11/12 h-[500px] mx-auto overflow-y-auto bg-white rounded shadow-lg modal-container md:max-w-md">
                     <div
                       class="absolute top-0 right-0 z-50 flex flex-col items-center mt-4 mr-4 text-sm text-white cursor-pointer modal-close">
                     </div>
@@ -318,19 +318,19 @@ const computedData = computed(() => {
                       <!-- Footer -->
                       <div class="flex justify-end pt-2 mt-4">
                         <button
-                          v-show="dataID.status != 'Approved'"
+                          v-if="dataID.status != 'Approved' && dataID.status != 'Rejected' && dataID.status != 'Cancelled'"
                           class="px-6 py-3 font-medium tracking-wide text-white bg-red-600 rounded-md hover:bg-red-700 focus:outline-none mx-2"
                           @click="open = false, updateVerificationStatus(dataID.id, 'Rejected')" >
-                          Decline
+                          Reject
                         </button>
                         <button 
-                          v-show="dataID.status != 'Approved'"
+                          v-if="dataID.status != 'Approved' && dataID.status != 'Rejected' && dataID.status != 'Cancelled'"
                           class="px-6 py-3 font-medium tracking-wide text-white btn-clr-primary rounded-md"
                           @click="open = false, updateVerificationStatus(dataID.id, 'Approved')">
-                          Accept
+                          Approve
                         </button>
                         <button 
-                          v-show="dataID.status === 'Approved'"
+                          v-if="dataID.status == 'Approved' || dataID.status == 'Rejected' || dataID.status == 'Cancelled'"
                           class="px-6 py-3 font-medium tracking-wide text-white btn-clr-primary rounded-md"
                           @click="open = false">
                           Close
