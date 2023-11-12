@@ -4,11 +4,16 @@ import { ref } from 'vue'
 import { computed, onMounted } from 'vue';
 
 const data = ref([]);
+const totalData = ref([]);
 
-const totalUser = async () => {
+const fetchTotal = async () => {
   try {
-    const response = await axios.get('/api/total/user');
+    const response = await axios.post('/api/admin/totals');
 
+    if(response.data != null){
+      totalData.value = response.data.data;
+    }
+    console.log(totalData);
   } catch (error) {
     console.error("error fetching data", error);
   }
@@ -16,44 +21,24 @@ const totalUser = async () => {
 
 const fetchData = async () => {
   try {
-    const response = await axios.get('/api/user/list');
-    data.value = response.data;
-
-    if (response.data.source == "topUserNotFound") {
-      data.value = null;
+    const response = await axios.post('/api/admin/top-users');
+    if (response.data != null) {
+      data.value = response.data.data
     }
+    console.log(response.data);
   } catch (error) {
     console.error("Error fetching data", error);
   }
 }
 onMounted(() => {
   fetchData();
+  fetchTotal();
 });
 
 const computedData = computed(() => {
   console.log(data.value);
-  return data.value;
+  return data.value, totalData.value;
 });
-
-// interface User {
-//   name: string
-//   email: string
-//   title: string
-//   title2: string
-//   status: string
-//   role: string
-// }
-
-// const testUser: User = {
-//   name: 'John Doe',
-//   email: 'john@example.com',
-//   title: 'Software Engineer',
-//   title2: 'Web dev',
-//   status: 'Active',
-//   role: 'Owner',
-// }
-
-// const users = ref<User[]>([...Array(10).keys()].map(() => testUser))
 </script>
 
 <template>
@@ -62,7 +47,7 @@ const computedData = computed(() => {
       Dashboard
     </h3>
 
-    <div class="mt-4">
+    <div v-for="item in computedData" :key="item.id" class="mt-4">
       <div class="flex flex-wrap -mx-6">
         <div class="w-full px-6 sm:w-1/2 xl:w-1/3">
           <div class="flex items-center px-5 py-6 bg-white rounded-md shadow-sm">
@@ -91,7 +76,7 @@ const computedData = computed(() => {
 
             <div class="mx-5">
               <h4 class="text-2xl font-semibold text-gray-700">
-                <p>{{ }}8,303</p>
+                <p>{{ item.userCount }}</p>
               </h4>
               <div class="text-gray-500">
                 All Users
@@ -102,20 +87,20 @@ const computedData = computed(() => {
 
         <div class="w-full px-6 mt-6 sm:w-1/2 xl:w-1/3 sm:mt-0">
           <div class="flex items-center px-5 py-6 bg-white rounded-md shadow-sm">
-            <div class="p-3 bg-blue-600 bg-opacity-75 rounded-full">
-              <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                fill="none" viewBox="0 0 11 20">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M1.75 15.363a4.954 4.954 0 0 0 2.638 1.574c2.345.572 4.653-.434 5.155-2.247.502-1.813-1.313-3.79-3.657-4.364-2.344-.574-4.16-2.551-3.658-4.364.502-1.813 2.81-2.818 5.155-2.246A4.97 4.97 0 0 1 10 5.264M6 17.097v1.82m0-17.5v2.138" />
+            <div class="p-3 bg-orange-600 text-white bg-opacity-75 rounded-full">
+              <svg class="w-[30px] h-[30px] text-gray-800 dark:text-white" aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
               </svg>
             </div>
 
             <div class="mx-5">
               <h4 class="text-2xl font-semibold text-gray-700">
-                200,521
+                {{ item.verificationCount }}
               </h4>
               <div class="text-gray-500">
-                Credits Revenue
+                Pending Verifications
               </div>
             </div>
           </div>
@@ -135,7 +120,7 @@ const computedData = computed(() => {
 
             <div class="mx-5">
               <h4 class="text-2xl font-semibold text-gray-700">
-                215,542
+                {{ item.postCount }}
               </h4>
               <div class="text-gray-500">
                 Available Post
@@ -157,6 +142,10 @@ const computedData = computed(() => {
               <tr>
                 <th
                   class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
+                  id
+                </th>
+                <th
+                  class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
                   user id
                 </th>
                 <th
@@ -171,15 +160,16 @@ const computedData = computed(() => {
                   class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
                   Total Post
                 </th>
-                <th
-                  class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
-                  Status
-                </th>
               </tr>
             </thead>
 
             <tbody class="bg-white">
-              <tr v-for="item in computedData" :key="item.id">
+              <tr v-for="(item, index) in data" :key="item.id">
+                <td class="px-6 py-4 border-b border-gray-200 whitespace-nowrap">
+                  <div class="text-sm font-medium leading-5 text-gray-900">
+                    {{ index + 1 }}
+                  </div>
+                </td>
                 <td class="px-6 py-4 border-b border-gray-200 whitespace-nowrap">
                   <div class="text-sm font-medium leading-5 text-gray-900">
                     {{ item.id }}
@@ -194,22 +184,11 @@ const computedData = computed(() => {
                 <td class="px-6 py-4 border-b border-gray-200 whitespace-nowrap">
                   <div class="text-sm leading-5 text-gray-900">
                     {{ item.email }}
-                    321
                   </div>
                 </td>
                 <td class="px-6 py-4 border-b border-gray-200 whitespace-nowrap">
                   <div class="text-sm leading-5 text-gray-900">
-                    {{ item.totalpost }}
-                    321
-                  </div>
-                </td>
-
-                <td class="px-6 py-4 border-b border-gray-200 whitespace-nowrap">
-                  <div class="flex items-center">
-                    <span :class="`relative inline-block px-3 py-1 text-green-900 leading-tight`">
-                      <span aria-hidden :class="`absolute inset-0 bg-green-400 opacity-50 rounded-full`" />
-                      <span class="relative text-green-700">{{ item.status }}</span> active
-                    </span>
+                    {{ item.total_post }}
                   </div>
                 </td>
               </tr>

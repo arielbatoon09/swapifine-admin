@@ -1,8 +1,44 @@
 <script setup lang="ts">
+import axios from 'axios';
+import { ref, onMounted, computed } from 'vue'
 
-import { ref } from 'vue'
+const open = ref(false);
+const data = ref([]);
+const dataByID = ref([]);
 
-const open = ref(false)
+const fetchData = async () => {
+  try{
+    const response = await axios.get('/api/reported-user/all-list');
+    if(response.data != null){
+      data.value = response.data.data
+    }
+    console.log(data.value);
+  } catch (error) {
+    console.error("Error fetching data", error);
+  }
+};
+
+onMounted(() => {
+  fetchData();
+});
+
+const getReportedUserByID = async (id) => {
+  try{
+    const response = await axios.post("/api/reported-user/getReportedUserByID", {
+      id: id,
+    });
+    dataByID.value = response.data.data;
+
+    console.log(dataByID);
+  } catch (error) {
+    console.error("Error fetching data", error);
+  }
+};
+
+const computedData = computed(() => {
+  console.log(data.value);
+  return data.value;
+});
 
 </script>
 <template>
@@ -75,13 +111,12 @@ const open = ref(false)
         </tr>
       </thead>
       <tbody>
-        <!-- v-for="(item, index) in data" :key="item.id" -->
-        <tr>
+        <tr v-for="(item, index) in computedData" :key="item.id">
           <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
             <div class="flex items-center">
               <div>
                 <p class="text-gray-900 whitespace-nowrap">
-                  <!-- {{ index+id }} -->
+                  {{ index+1 }}
                 </p>
               </div>
             </div>
@@ -90,7 +125,7 @@ const open = ref(false)
             <div class="flex items-center">
               <div>
                 <p class="text-gray-900 whitespace-nowrap">
-                  <!-- {{ item.fullname }} -->
+                  {{ item.fullname }}
                 </p>
               </div>
             </div>
@@ -99,7 +134,7 @@ const open = ref(false)
             <div class="flex items-center">
               <div>
                 <p class="text-gray-900 whitespace-nowrap">
-                  <!-- {{ item.email }} -->
+                  {{ item.email }}
                 </p>
               </div>
             </div>
@@ -108,7 +143,7 @@ const open = ref(false)
             <div class="flex items-center">
               <div>
                 <p class="text-gray-900 whitespace-nowrap">
-                  <!-- {{ item.reported by }} -->
+                  {{ item.reported_by }}
                 </p>
               </div>
             </div>
@@ -117,7 +152,7 @@ const open = ref(false)
             <div class="flex items-center">
               <div>
                 <p class="text-gray-900 whitespace-nowrap">
-                  <!-- {{ item.date }} -->
+                  {{ item.date_reported }}
                 </p>
               </div>
             </div>
@@ -125,7 +160,7 @@ const open = ref(false)
           <td class=" py-5 text-sm bg-white border-b border-gray-200">
                 <button
                   class="px-6 py-3 font-medium tracking-wide text-white btn-clr-primary rounded-md"
-                  @click="open = true">
+                  @click="open = true, getReportedUserByID(item.id)">
                   Details
                 </button>
 
@@ -135,13 +170,14 @@ const open = ref(false)
                   <div class="absolute w-full h-full bg-gray-900 opacity-50 modal-overlay" @click="open = false" />
 
                   <div
-                    class="z-50 w-11/12 mx-auto overflow-y-auto bg-white rounded shadow-lg modal-container md:max-w-md">
+                    class="z-50 w-11/12 h-[500px] mx-auto overflow-y-auto bg-white rounded shadow-lg modal-container md:max-w-md">
                     <div
                       class="absolute top-0 right-0 z-50 flex flex-col items-center mt-4 mr-4 text-sm text-white cursor-pointer modal-close">
                     </div>
 
                     <!-- Add margin if you want to see some of the overlay behind the modal -->
-                    <div class="px-6 py-4 text-left modal-content">
+                    <div v-for="dataID in dataByID"
+                     class="px-6 py-4 text-left modal-content">
                       <!-- Title -->
                       <div class="flex items-center justify-between pb-3">
                         <p class="text-2xl font-bold">
@@ -160,7 +196,7 @@ const open = ref(false)
                       <div class="container mt-4">
                         <div class="proof d-flex">
                             <p>Proof image</p>
-                            <img src="../assets/car1.jpg" class="bg-gray-500 mt-3 justify-item-center" alt="" style="height: 200px; width: 250px;">
+                            <img :src="dataID.proof_img_path" class="bg-gray-500 mt-3 justify-item-center" alt="" style="height: 200px; width: 250px;">
                         </div>
                       </div>
 
@@ -172,27 +208,17 @@ const open = ref(false)
                                 <p class="text-gray-900 whitespace-nowrap mb-3">
                                   Fullname: 
                                 </p>
-                                <p></p>
+                                <p>{{ dataID.fullname }}</p>
                               </div>
                             </div>
                           </div>
-                          <!-- <div class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                            <div class="flex items-center">
-                              <div>
-                                <p class="text-gray-900 whitespace-nowrap mb-3">
-                                  Address: 
-                                </p>
-                                <p></p>
-                              </div>
-                            </div>
-                          </div> -->
                           <div class="px-5 py-5 text-sm bg-white border-b border-gray-200">
                             <div class="flex items-center">
                               <div>
                                 <p class="text-gray-900 whitespace-nowrap mb-3">
                                   Message: 
                                 </p>
-                                <p></p>
+                                <p>{{ dataID.message }}</p>
                               </div>
                             </div>
                           </div>
@@ -202,7 +228,7 @@ const open = ref(false)
                       <!-- Footer -->
                       <div class="flex justify-end pt-2 mt-4">
                         <button
-                          class="px-6 py-3 font-medium tracking-wide text-white bg-red-600 rounded-md hover:bg-indigo-500 focus:outline-none mx-2"
+                          class="px-6 py-3 font-medium tracking-wide text-white bg-red-600 rounded-md hover:bg-red-700 focus:outline-none mx-2"
                           @click="open = false">
                           Close
                         </button>

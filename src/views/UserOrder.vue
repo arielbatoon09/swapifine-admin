@@ -304,7 +304,7 @@ onMounted(() => {
         </tr>
       </tbody>
     </table>
-    <div class="flex flex-col items-center px-5 py-5 bg-white border-t xs:flex-row xs:justify-between">
+    <div class="flex flex-col items-center px-6 py-5 bg-white border-t xs:flex-row xs:justify-between">
       <span class="text-xs text-gray-900 xs:text-sm">Showing 1 to 4 of 50 Entries</span>
 
       <div class="inline-flex mt-2 xs:mt-0">

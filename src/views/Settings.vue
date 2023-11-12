@@ -25,7 +25,7 @@ function register() {
   <h3 class="text-gray-700 text-3xl font-medium">
     PROFILE/SETTINGS
   </h3>
-  <div class="py-12">
+  <div class="py-7">
     <div class="max-w-7xl mx-auto space-y-6">
       <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
         <form @submit.prevent="register">
@@ -35,14 +35,6 @@ function register() {
           <h6 class="text-xs text-gray-500 font-normal mb-6">
             Updates your account's profile information and email address.
           </h6>
-          <div class="profile-container">
-            <img
-              src="https://images.unsplash.com/photo-1528892952291-009c663ce843?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=296&q=80"
-              alt="">
-          </div>
-          <div class="mt-4">
-            <input type="file" name="" id="">
-          </div>
           <div class="grid grid-rows-1 gap-3 mt-4 sm:grid-rows-2">
             <div>
               <label class="text-gray-500 text-sm" for="username">Name</label><br>
@@ -108,7 +100,7 @@ function register() {
 
       <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
         <h3 class="text-gray-700 text-1xl font-medium mb-2">
-          Deactivate Account
+          Delete Account
         </h3>
         <h6 class="text-xs text-gray-500 font-normal mb-6">
           Once your account is deleted, all of its resources and data will be permanently deleted. <br>
@@ -117,7 +109,7 @@ function register() {
 
         <div class="sm:rounded-lg">
           <button class="px-6 py-2 text-white bg-red-600 rounded-md">
-            Deactivate
+            Delete
           </button>
         </div>
       </div>
