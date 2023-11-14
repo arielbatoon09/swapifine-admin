@@ -159,7 +159,7 @@ const computedData = computed(() => {
           </td>
           <td class=" py-5 text-sm bg-white border-b border-gray-200">
                 <button
-                  class="px-6 py-3 font-medium tracking-wide text-white btn-clr-primary rounded-md"
+                  class="px-6 py-3 mr-3 font-medium tracking-wide text-white btn-clr-primary rounded-md"
                   @click="open = true, getReportedUserByID(item.id)">
                   Details
                 </button>

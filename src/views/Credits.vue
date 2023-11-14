@@ -154,7 +154,7 @@ onMounted(() => {
 
                             <div class="flex items-center">
                                 <button
-                                    class="px-6 py-3 my-2 font-medium tracking-wide text-white btn-clr-primary rounded-md"
+                                    class="px-6 py-3 my-2 mr-3 font-medium tracking-wide text-white btn-clr-primary rounded-md"
                                     @click="open = true, getCreditsDetailsByID(item.id)">
                                     Details
                                 </button>

@@ -39,7 +39,7 @@ function register() {
             <div>
               <label class="text-gray-500 text-sm" for="username">Name</label><br>
               <input
-                class="w-6/12 mt-2 border-gray-700 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
+                class="w-full lg:w-6/12 mt-2 border-gray-700 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
                 type="text">
               <!-- v-model -->
             </div>
@@ -47,7 +47,7 @@ function register() {
             <div>
               <label class="text-gray-500 text-sm" for="emailAddress">Email Address</label><br>
               <input
-                class="w-6/12  border-gray-700 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
+                class="w-full lg:w-6/12 border-gray-700 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
                 type="email">
             </div>
 
@@ -72,20 +72,20 @@ function register() {
             <div>
               <label class="text-gray-500 text-sm" for="password">Current Password</label><br>
               <input
-                class="w-6/12 mt-2 border-gray-700 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
+                class="w-full lg:w-6/12 mt-2 border-gray-700 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
                 type="password">
             </div>
             <div>
               <label class="text-gray-500 text-sm" for="password">Password</label><br>
               <input
-                class="w-6/12 mt-2 border-gray-700 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
+                class="w-full lg:w-6/12 mt-2 border-gray-700 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
                 type="password">
             </div>
 
             <div>
               <label class="text-gray-500 text-sm" for="passwordConfirmation">Confirm Password</label><br>
               <input
-                class="w-6/12 mt-2 border-gray-700 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
+                class="w-full lg:w-6/12 mt-2 border-gray-700 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
                 type="password">
             </div>
           </div>

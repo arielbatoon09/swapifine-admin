@@ -259,7 +259,7 @@ const computedData = computed(() => {
 
                   <!-- Delete modal -->
                   <button
-                    class="'absolute mx-3 inset-0 bg-red-600 rounded-md p-2 px-3 text-white hover:text-red-200"
+                    class="'absolute lg:mx-3 mt-2 lg:mt-0 inset-0 bg-red-600 rounded-md  p-2 px-3 text-white hover:text-red-200"
                     @click="deleteId(item.id)" >
                     Delete
                   </button>
