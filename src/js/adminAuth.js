@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import useCookies from 'vue-cookies'
 import axios from 'axios';
 
+
 export const useAuthStore = defineStore('auth', {
     state: () => ({
         authUser: null,
@@ -32,6 +33,15 @@ export const useAuthStore = defineStore('auth', {
             } catch (error) {
                 console.log(error);
             }
-        }
+        },
+        async logout() {
+            try {
+                await axios.get('/api/admin/logout');
+                useCookies.remove('isLoggedIn');
+                this.authUser = null;
+            } catch (error) {
+                console.error(error);
+            }
+        },
     }
 });

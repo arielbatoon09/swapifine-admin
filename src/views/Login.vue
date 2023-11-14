@@ -1,12 +1,21 @@
 <script setup lang="ts">
-import { useAuthStore } from '../js/adminAuth';
-import { ref } from 'vue';
+import { useAuthStore } from '../../src/js/adminAuth.js';
+import useCookies from 'vue-cookies'
+import { ref, onMounted } from 'vue';
 import axios from 'axios';
+import { useRouter } from 'vue-router';
 
-
-
-// const authStore = useAuthStore();
+const router = useRouter();
+const authStore = useAuthStore();
 const isRequest = ref(false);
+
+const checkIfLoggedIn = () => {
+  // const isLoggedIn = useCookies.get('isLoggedIn');
+  // if (isLoggedIn === undefined || isLoggedIn === 'undefined') {
+  //   router.push('/dashboard');
+  // }
+  router.push('/dashboard');
+};
 
 const form = ref({
   email: '',
@@ -14,22 +23,30 @@ const form = ref({
 });
 
 const handleLogin = async () => {
-  try{
-    isRequest.value = true;
+  try {
+    
+    // Init Form Value
     const { email, password } = form.value;
 
-    const response = await axios.post('/api/admin/login', {
-      email: email,
-      password: password
-    });
-    if (response.data.status == "success") {
-      isRequest.value = false;
+    // Pass the data argument to login store function
+    const response = await authStore.login(email, password);
+
+    // Cancel loading state if the response is true
+    if (response.status == 'success') {
+      router.push('/dashboard');
+    } else {
+      alert(response.message);
     }
-    console.log(response.data);
+
   } catch (error) {
-    console.error("Error");
+    console.error("Error:", error);
   }
-}
+};
+
+onMounted(() => {
+  checkIfLoggedIn();
+});
+
 </script>
 
 <template>
@@ -47,21 +64,11 @@ const handleLogin = async () => {
           v-model="form.email" class="block w-full mt-1 border-gray-200 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500">
         </label>
 
-        <label class="block mt-3">
+        <label class="block mt-3 mb-6">
           <span class="text-sm text-gray-700">Password</span>
           <input type="password"
           v-model="form.password" class="block w-full mt-1 border-gray-200 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500">
         </label>
-
-        <div class="flex items-center justify-between mt-4">
-          <div>
-            <label class="inline-flex items-center">
-              <input type="checkbox"
-                class="text-gray-800 border-gray-200 rounded-md focus:border-gray-600 focus:ring focus:ring-opacity-40 focus:ring-gray-500">
-              <span class="mx-2 text-sm text-gray-600">Remember me</span>
-            </label>
-          </div>
-        </div>
 
         <div class="mt-2">
           <button @click="handleLogin"

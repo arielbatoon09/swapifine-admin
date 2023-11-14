@@ -1,9 +1,22 @@
 <script setup lang="ts">
+import { useAuthStore } from '../../src/js/adminAuth.js';
 import { ref } from 'vue'
-import { useSidebar } from '../composables/useSidebar'
+import { useSidebar } from '../composables/useSidebar';
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
+const authStore = useAuthStore();
 const dropdownOpen = ref(false)
 const { isOpen } = useSidebar()
+
+const handleLogout = async () => {
+  try{
+    const response = await authStore.logout();
+    router.push('/');
+  } catch (error) {
+    console.error("error logout", error);
+  }
+};
 
 </script>
 
@@ -34,9 +47,9 @@ const { isOpen } = useSidebar()
         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
           d="M4 8h11m0 0-4-4m4 4-4 4m-5 3H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h3" />
       </svg>
-      <router-link to="/" class="block text-sm text-gray-700">
+      <div @click="handleLogout" class="cursor-pointer block text-sm text-gray-700">
         Log out
-      </router-link>
+      </div>
     </div>
   </header>
 </template>

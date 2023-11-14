@@ -2,9 +2,20 @@
 import axios from 'axios';
 import { ref } from 'vue'
 import { computed, onMounted } from 'vue';
+import useCookies from 'vue-cookies'
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 const data = ref([]);
 const totalData = ref([]);
+
+const checkIfLoggedIn = () => {
+  // const isLoggedIn = useCookies.get('isLoggedIn');
+  // if (isLoggedIn !== undefined || isLoggedIn !== 'undefined') {
+  //   router.push('/');
+  // }
+  router.push('/');
+};
 
 const fetchTotal = async () => {
   try {
@@ -17,7 +28,7 @@ const fetchTotal = async () => {
   } catch (error) {
     console.error("error fetching data", error);
   }
-}
+};
 
 const fetchData = async () => {
   try {
@@ -33,6 +44,7 @@ const fetchData = async () => {
 onMounted(() => {
   fetchData();
   fetchTotal();
+  checkIfLoggedIn();
 });
 
 const computedData = computed(() => {
