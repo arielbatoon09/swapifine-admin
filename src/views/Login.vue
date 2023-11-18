@@ -14,7 +14,7 @@ const checkIfLoggedIn = () => {
   // if (isLoggedIn === undefined || isLoggedIn === 'undefined') {
   //   router.push('/dashboard');
   // }
-  router.push('/dashboard');
+  // router.push('/dashboard');
 };
 
 const form = ref({
@@ -44,7 +44,7 @@ const handleLogin = async () => {
 };
 
 onMounted(() => {
-  checkIfLoggedIn();
+  // checkIfLoggedIn();
 });
 
 </script>
