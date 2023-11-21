@@ -12,7 +12,7 @@ const { isOpen } = useSidebar()
 const handleLogout = async () => {
   try{
     const response = await authStore.logout();
-    router.push('/');
+    router.push('/login');
   } catch (error) {
     console.error("error logout", error);
   }

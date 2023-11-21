@@ -44,7 +44,7 @@ const handleLogin = async () => {
 };
 
 onMounted(() => {
-  // checkIfLoggedIn();
+  checkIfLoggedIn();
 });
 
 </script>

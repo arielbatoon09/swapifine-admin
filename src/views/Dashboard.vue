@@ -2,7 +2,7 @@
 import axios from 'axios';
 import { ref } from 'vue'
 import { computed, onMounted } from 'vue';
-import useCookies from 'vue-cookies'
+import useCookies from 'vue-cookies';
 import { useRouter } from 'vue-router';
 
 const data = ref([]);
