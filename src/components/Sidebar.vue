@@ -80,36 +80,54 @@ const inactiveClass = ref(
         </router-link>
 
         <!-- Dropdown Menu -->
-        <div @click="toggleDropdown" class="flex flex-col">
-          <div class="cursor-pointer flex items-center px-6 py-2 mt-4 duration-200 border-l-4"
-            :class="toggleDropdown ? activeClass : inactiveClass">
-            <svg class="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-              viewBox="0 0 19 20">
-              <path
-                d="M18.972.863a.913.913 0 0 0-.041-.207.956.956 0 0 0-.107-.19 1.01 1.01 0 0 0-.065-.116c-.008-.01-.02-.013-.028-.022a1.008 1.008 0 0 0-.174-.137 1.085 1.085 0 0 0-.141-.095 1.051 1.051 0 0 0-.171-.047.985.985 0 0 0-.207-.041C18.025.007 18.014 0 18 0h-3.207a1 1 0 1 0 0 2h.5l-4.552 3.9-3.5-.874a1 1 0 0 0-.867.189l-5 4a1 1 0 0 0 1.25 1.562L7.238 7.09l3.52.88a1 1 0 0 0 .892-.211L17 3.173v1.034a1 1 0 0 0 2 0V1a.9.9 0 0 0-.028-.137ZM13.5 9a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11Zm.24 4.591a3.112 3.112 0 0 1 1.935 1.374 2.036 2.036 0 0 1 .234 1.584 2.255 2.255 0 0 1-1.374 1.469.982.982 0 0 1-1.953.09 2.943 2.943 0 0 1-1.475-.92 1 1 0 0 1 1.536-1.283.953.953 0 0 0 .507.29.778.778 0 0 0 .831-.18 1.108 1.108 0 0 0-.714-.481 3.105 3.105 0 0 1-1.934-1.374 2.042 2.042 0 0 1-.233-1.584 2.264 2.264 0 0 1 1.45-1.493v-.03a1 1 0 0 1 2 0c.517.159.98.457 1.337.862a1.002 1.002 0 1 1-1.524 1.3.962.962 0 0 0-.507-.286.775.775 0 0 0-.829.18 1.113 1.113 0 0 0 .713.482ZM6 20a1 1 0 0 1-1-1v-6a1 1 0 1 1 2 0v6a1 1 0 0 1-1 1Zm-4 0a1 1 0 0 1-1-1v-4a1 1 0 1 1 2 0v4a1 1 0 0 1-1 1Z" />
-            </svg>
-            <span class="mx-4">Transactions History</span>
-            <svg class="w-[14px] h-[14px] text-gray-800 dark:text-white" aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
-                d="m1 1 4 4 4-4" />
-            </svg>
-          </div>
-          <!-- Toggled Dropdown -->
-          <div v-show="isToggleDropdown" class="px-6 text-white">
+        <div>
+          <div @click.stop="isToggleDropdown = !isToggleDropdown" class="flex flex-col">
+            <div class="cursor-pointer flex items-center px-6 py-2 mt-4 duration-200"
+              :class="{ 'bg-none border-l-4': isToggleDropdown, 'bg-transparent': !isToggleDropdown }">
+              <!-- Dollar sign icon -->
+              <svg class="w-[30px] h-[20px] text-gray-800 dark:text-white" aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 11 20">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M1.75 15.363a4.954 4.954 0 0 0 2.638 1.574c2.345.572 4.653-.434 5.155-2.247.502-1.813-1.313-3.79-3.657-4.364-2.344-.574-4.16-2.551-3.658-4.364.502-1.813 2.81-2.818 5.155-2.246A4.97 4.97 0 0 1 10 5.264M6 17.097v1.82m0-17.5v2.138" />
+              </svg>
 
-            <router-link class="flex items-center px-6 py-2 mt-4 duration-200 border-l-4"
-              :class="[$route.name === 'UserOrder' ? activeClass : inactiveClass]" to="/UserOrder">
-              <span class="mx-4">User Order</span>
-            </router-link>
+              <span class="mx-4" :class="{ 'text-white': isToggleDropdown, 'text-gray-500': !isToggleDropdown }">
+                Transactions History
+              </span>
 
-            <router-link class="flex items-center px-6 py-2 mt-4 duration-200 border-l-4"
-              :class="[$route.name === 'CreditsRevenue' ? activeClass : inactiveClass]" to="/CreditsRevenue">
-              <span class="mx-4">Credits Revenue</span>
-            </router-link>
+              <!-- Your existing SVG for the dropdown indicator -->
+              <svg class="w-[14px] h-[14px] text-gray-800 dark:text-white" aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="m1 1 4 4 4-4" />
+              </svg>
+            </div>
+
+            <!-- Toggled Dropdown -->
+            <div v-show="isToggleDropdown" class="px-6 text-white">
+
+              <router-link @click.stop class="flex items-center px-6 py-2 mt-4 duration-200 border-l-4"
+                :class="[$route.name === 'UserOrder' ? activeClass : inactiveClass]" to="/UserOrder">
+                <!-- Dollar sign icon for the dropdown content -->
+                <i class="fas fa-dollar-sign text-white"></i>
+
+                <span class="mx-4" :class="{ 'text-white': isToggleDropdown, 'text-gray-500': !isToggleDropdown }">
+                  User Order
+                </span>
+              </router-link>
+
+              <router-link @click.stop class="flex items-center px-6 py-2 mt-4 duration-200 border-l-4"
+                :class="[$route.name === 'CreditsRevenue' ? activeClass : inactiveClass]" to="/CreditsRevenue">
+                <!-- Dollar sign icon for the dropdown content -->
+                <i class="fas fa-dollar-sign text-white"></i>
+
+                <span class="mx-4" :class="{ 'text-white': isToggleDropdown, 'text-gray-500': !isToggleDropdown }">
+                  Credits Revenue
+                </span>
+              </router-link>
+            </div>
           </div>
         </div>
-
+        
         <router-link class="flex items-center px-6 py-2 mt-4 duration-200 border-l-4"
           :class="[$route.name === 'Report' ? activeClass : inactiveClass]" to="/Report">
           <svg class="w-[24px] h-[24px] text-gray-800 dark:text-white" aria-hidden="true"

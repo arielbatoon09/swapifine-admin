@@ -4,18 +4,34 @@ import useCookies from 'vue-cookies'
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
+import { createToaster } from "@meforma/vue-toaster";
 
 const router = useRouter();
 const authStore = useAuthStore();
-const isRequest = ref(false);
 
-const checkIfLoggedIn = () => {
-  // const isLoggedIn = useCookies.get('isLoggedIn');
-  // if (isLoggedIn === undefined || isLoggedIn === 'undefined') {
-  //   router.push('/dashboard');
-  // }
-  // router.push('/dashboard');
-};
+const toaster = createToaster({
+  position: 'bottom-right',
+  duration: 3000,
+  maxToasts: 1,
+  pauseOnHover: true,
+  closeOnClick: true,
+  progressBar: true,
+  theme: 'default',
+  icon: 'info',
+  transition: 'fade',
+
+  success: {
+    theme: 'success',
+    icon: 'check-circle', // Use a success-specific icon
+    transition: 'slide-up', // Use a different transition for success toasts
+  },
+
+  error: {
+    theme: 'error',
+    icon: 'exclamation-triangle', // Use an error-specific icon
+    transition: 'slide-down', // Use a different transition for error toasts
+  },
+});
 
 const form = ref({
   email: '',
@@ -34,8 +50,9 @@ const handleLogin = async () => {
     // Cancel loading state if the response is true
     if (response.status == 'success') {
       router.push('/dashboard');
+      toaster.success(`Successfully logged in`);
     } else {
-      alert(response.message);
+      toaster.error("Failed to login");
     }
 
   } catch (error) {
@@ -44,7 +61,7 @@ const handleLogin = async () => {
 };
 
 onMounted(() => {
-  checkIfLoggedIn();
+  // checkIfLoggedIn();
 });
 
 </script>

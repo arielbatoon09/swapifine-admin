@@ -2,6 +2,7 @@
 import axios from 'axios';
 import { defineStore } from 'pinia';
 import { ref, computed, onMounted } from 'vue';
+import { createToaster } from "@meforma/vue-toaster";
 
 const isOpen = ref(false);
 const editbtn = ref(false);
@@ -14,6 +15,31 @@ const form = ref({
   fullname: '',
   email: '',
 });
+
+const toaster = createToaster({
+  position: 'bottom-right',
+  duration: 3000,
+  maxToasts: 1,
+  pauseOnHover: true,
+  closeOnClick: true,
+  progressBar: true,
+  theme: 'default',
+  icon: 'info',
+  transition: 'fade',
+
+  success: {
+    theme: 'success',
+    icon: 'check-circle', // Use a success-specific icon
+    transition: 'slide-up', // Use a different transition for success toasts
+  },
+
+  error: {
+    theme: 'error',
+    icon: 'exclamation-triangle', // Use an error-specific icon
+    transition: 'slide-down', // Use a different transition for error toasts
+  },
+});
+
 // ADD ADMIN
 const handleInvite = async () => {
   try {
@@ -28,6 +54,9 @@ const handleInvite = async () => {
       form.value.fullname = '';
       form.value.email = '';
       isOpen.value = false;
+      toaster.success("Successfully invited");
+    } else {
+      toaster.error("Failed to invite");
     }
 
     console.log(response.data);
@@ -74,6 +103,9 @@ const updateAdmin = async (id) => {
       form.value.fullname = '';
       form.value.email = '';
       editbtn.value = false;
+      toaster.success("Successfully updated");
+    } else {
+      toaster.error("Failed to udpated");
     }
 
     console.log(response.data);
@@ -97,6 +129,9 @@ const handleDelete = async (id) => {
     
     if (response.data.status === "success") {
       deletebtn.value = false;
+      toaster.success("Successfully deleted");
+    } else {
+      toaster.error("Failed to delete");
     }
 
     console.log(response.data.status);
@@ -410,7 +445,7 @@ const computedData = computed(() => {
                         <!-- Title -->
                         <div class="flex items-center justify-between pb-3">
                           <p class="text-2xl font-bold">
-                            Delete Category Name
+                            Delete Admin
                           </p>
                           <div class="z-50 cursor-pointer modal-close" @click="deletebtn = false">
                             <svg class="text-black fill-current" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
@@ -423,7 +458,7 @@ const computedData = computed(() => {
 
                         <!-- Body -->
                         <p class="text-md font-normal tracking-wider text-left text-gray-900 mb-3">Are you sure you want
-                          to delete this Category?</p>
+                          to delete this Admin?</p>
 
                         <!-- Footer -->
                         <div class="flex justify-end pt-2">

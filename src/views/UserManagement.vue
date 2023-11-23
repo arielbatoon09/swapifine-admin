@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import axios from 'axios';
 import { ref, computed, onMounted } from 'vue';
+import { createToaster } from "@meforma/vue-toaster";
 
 
 const data = ref([]);
@@ -12,6 +13,30 @@ const idDelete = ref(null);
 const form = ref({
   fullname: '',
   email: ''
+});
+
+const toaster = createToaster({
+  position: 'bottom-right',
+  duration: 3000,
+  maxToasts: 1,
+  pauseOnHover: true,
+  closeOnClick: true,
+  progressBar: true,
+  theme: 'default',
+  icon: 'info',
+  transition: 'fade',
+
+  success: {
+    theme: 'success',
+    icon: 'check-circle', // Use a success-specific icon
+    transition: 'slide-up', // Use a different transition for success toasts
+  },
+
+  error: {
+    theme: 'error',
+    icon: 'exclamation-triangle', // Use an error-specific icon
+    transition: 'slide-down', // Use a different transition for error toasts
+  },
 });
 
 const updateUser = async (id) => {
@@ -33,10 +58,13 @@ const handUserUpdate = async (id) => {
       form.value.fullname = '';
       form.value.email = '';
       editbtn.value = false
-    }
 
-    console.log(response.data);
-    fetchData();
+      toaster.success(`Successfully updated`);
+      console.log(response.data);
+      fetchData();
+    } else {
+      toaster.error(`Failed to update`);
+    }
 
   } catch (error) {
     console.error("Error updating User", error);
@@ -48,10 +76,10 @@ const fetchData = async () => {
     const response = await axios.get('/api/user/list');
     data.value = response.data.data;
 
-    if(response.data.source == "UserListNotFound"){
+    if (response.data.source == "UserListNotFound") {
       data.value = null;
     }
-    
+
   } catch (error) {
     console.error("Error fetching data", error);
   }
@@ -71,10 +99,13 @@ const handleDelete = async (id) => {
 
     if (response.data.status === "success") {
       deletebtn.value = false;
-    }
 
+    toaster.success("Successfully deleted");
     console.log(response.data.status);
     fetchData(); // Refresh the data after successful deletion.
+    } else {
+      toaster.error("Failed to delete");
+    }
   } catch (error) {
     console.error("Error deleting data", error);
   }
@@ -237,7 +268,8 @@ const computedData = computed(() => {
                     <div>
                       <p class="text-gray-900 whitespace-nowrap">
                         <!-- EDIT BUTTON -->
-                        <button class="'absolute inset-0 btn-clr-primary rounded-md p-2 px-5 text-white hover:text-indigo-200"
+                        <button
+                          class="'absolute inset-0 btn-clr-primary rounded-md p-2 px-5 text-white hover:text-indigo-200"
                           @click="updateUser(item.id)">
                           Edit
                         </button>
@@ -293,8 +325,7 @@ const computedData = computed(() => {
                                 @click="editbtn = false">
                                 Close
                               </button>
-                              <button
-                                class="px-6 py-3 font-medium tracking-wide text-white btn-clr-primary rounded-md"
+                              <button class="px-6 py-3 font-medium tracking-wide text-white btn-clr-primary rounded-md"
                                 @click="handUserUpdate(idUpdate)">
                                 Save
                               </button>
@@ -329,7 +360,7 @@ const computedData = computed(() => {
                             <!-- Title -->
                             <div class="flex items-center justify-between pb-3">
                               <p class="text-2xl font-bold">
-                                Delete Category Name
+                                Delete User
                               </p>
                               <div class="z-50 cursor-pointer modal-close" @click="deletebtn = false">
                                 <svg class="text-black fill-current" xmlns="http://www.w3.org/2000/svg" width="18"
@@ -343,7 +374,7 @@ const computedData = computed(() => {
                             <!-- Body -->
                             <p class="text-md font-normal tracking-wider text-left text-gray-900 mb-3">Are you sure you
                               want
-                              to delete this Category?</p>
+                              to delete this User?</p>
 
                             <!-- Footer -->
                             <div class="flex justify-end pt-2">
