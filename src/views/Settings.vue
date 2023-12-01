@@ -1,5 +1,16 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import axios from 'axios';
+import { ref, onMounted } from 'vue';
+import { useAuthStore } from '../js/adminAuth.js';
+
+const authStore = useAuthStore();
+const data = ref([]);
+
+const form = ref({
+  fullname: 'fullname',
+});
+
+// console.log(authStore.user?.isAuthenticated);
 
 interface User {
   fullname: string
@@ -13,13 +24,48 @@ const user = ref<User>({
   email: '',
   oldPassword: '',
   newPassword: '',
-})
+});
 
-function register() {
-  const data = JSON.parse(JSON.stringify(user.value))
-  // eslint-disable-next-line no-console
-  console.log('Registered: ', data)
+const fetchData = async () => {
+  try{
+    const response = await axios.get('api/admin/getDetails');
+    data.value = response.data.data;
+
+    console.log(response.data);
+  } catch (error){
+    console.error("Error fetching data", error);
+  }
 }
+
+const handleProfileInfoUpdate = async () => {
+  try{
+    const { fullname } = form.value;
+
+    const response = await axios.post('api/admin/updateBasic', {
+      fullname: fullname,
+    });
+
+    if(response.data.status === 'success'){
+      form.value.fullname = '';
+      fetchData();
+    }
+
+  } catch (error) {
+    console.error('Error updating data:', error);
+  }
+}
+
+onMounted(() =>{
+  fetchData();
+});
+
+
+
+// function register() {
+//   const data = JSON.parse(JSON.stringify(user.value))
+//   // eslint-disable-next-line no-console
+//   console.log('Registered: ', data)
+// }
 </script>
 <template>
   <h3 class="text-gray-700 text-3xl font-medium">
@@ -28,7 +74,7 @@ function register() {
   <div class="py-7">
     <div class="max-w-7xl mx-auto space-y-6">
       <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-        <form @submit.prevent="register">
+        <form>
           <h3 class="text-gray-700 text-1xl font-medium mb-2">
             Profile Information
           </h3>
@@ -41,27 +87,18 @@ function register() {
               <input
                 class="w-full lg:w-6/12 mt-2 border-gray-700 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
                 type="text">
-              <!-- v-model -->
             </div>
-
-            <div>
-              <label class="text-gray-500 text-sm" for="emailAddress">Email Address</label><br>
-              <input
-                class="w-full lg:w-6/12 border-gray-700 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
-                type="email">
-            </div>
-
-            <div class="flex justify-start">
-              <button class="px-6 py-3 font-medium tracking-wide text-white btn-clr-primary rounded-md">
+            <div >
+              <button class="py-4 px-6 font-medium tracking-wide text-white btn-clr-primary rounded-md">
                 Save
               </button>
-            </div>
+            </div>    
           </div>
         </form>
       </div>
 
       <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-        <form @submit.prevent="register">
+        <form>
           <h3 class="text-gray-700 text-1xl font-medium mb-2">
             Update Password
           </h3>
@@ -85,7 +122,7 @@ function register() {
             <div>
               <label class="text-gray-500 text-sm" for="passwordConfirmation">Confirm Password</label><br>
               <input
-                class="w-full lg:w-6/12 mt-2 border-gray-700 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
+                class="w-full lg:w-6/12 m5 mt-2 border-gray-700 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
                 type="password">
             </div>
           </div>

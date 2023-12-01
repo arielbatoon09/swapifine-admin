@@ -5,6 +5,7 @@ import useCookies from 'vue-cookies'
 import Dashboard from './views/Dashboard.vue'
 import Categories from './views/Categories.vue'
 import VerificationRequest from './views/VerificationRequest.vue'
+import WithdrawalRequest from './views/WithdrawalRequest.vue'
 import TransactionHistory from './views/TransactionHistory.vue'
 import UserTransaction from './views/UserTransaction.vue'
 import UserManagement from './views/UserManagement.vue'
@@ -50,6 +51,12 @@ const routes: RouteRecordRaw[] = [
     path: '/VerificationRequest',
     name: 'VerificationRequest',
     component: VerificationRequest,
+    meta: { requiredAuth: true },
+  },
+  {
+    path: '/WithdrawalRequest',
+    name: 'WithdrawalRequest',
+    component: WithdrawalRequest,
     meta: { requiredAuth: true },
   },
   {

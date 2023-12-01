@@ -79,14 +79,26 @@ const inactiveClass = ref(
           <span class="dropbtn mx-4">Verification Request</span>
         </router-link>
 
+        <!-- withdrawal request -->
+        <router-link class="dropdown flex items-center px-6 py-2 mt-4 duration-200 border-l-4"
+          :class="[$route.name === 'WithdrawalRequest' ? activeClass : inactiveClass]" to="/WithdrawalRequest">
+          <svg class="w-[24px] h-[24px] text-gray-500" aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 14">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+              d="M4 9h2m3 0h5M1 5h18M2 1h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1Z" />
+          </svg>
+
+          <span class="dropbtn mx-4">Withdrawal Request</span>
+        </router-link>
+
         <!-- Dropdown Menu -->
         <div>
           <div @click.stop="isToggleDropdown = !isToggleDropdown" class="flex flex-col">
             <div class="cursor-pointer flex items-center px-6 py-2 mt-4 duration-200"
               :class="{ 'bg-none border-l-4': isToggleDropdown, 'bg-transparent': !isToggleDropdown }">
               <!-- Dollar sign icon -->
-              <svg class="w-[30px] h-[20px] text-gray-800 dark:text-white" aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 11 20">
+              <svg class="w-[30px] h-[20px] text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                fill="none" viewBox="0 0 11 20">
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M1.75 15.363a4.954 4.954 0 0 0 2.638 1.574c2.345.572 4.653-.434 5.155-2.247.502-1.813-1.313-3.79-3.657-4.364-2.344-.574-4.16-2.551-3.658-4.364.502-1.813 2.81-2.818 5.155-2.246A4.97 4.97 0 0 1 10 5.264M6 17.097v1.82m0-17.5v2.138" />
               </svg>
@@ -96,8 +108,8 @@ const inactiveClass = ref(
               </span>
 
               <!-- Your existing SVG for the dropdown indicator -->
-              <svg class="w-[14px] h-[14px] text-gray-800 dark:text-white" aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+              <svg class="w-[14px] h-[14px] text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                fill="none" viewBox="0 0 10 6">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="m1 1 4 4 4-4" />
               </svg>
             </div>
@@ -127,10 +139,10 @@ const inactiveClass = ref(
             </div>
           </div>
         </div>
-        
+
         <router-link class="flex items-center px-6 py-2 mt-4 duration-200 border-l-4"
           :class="[$route.name === 'Report' ? activeClass : inactiveClass]" to="/Report">
-          <svg class="w-[24px] h-[24px] text-gray-800 dark:text-white" aria-hidden="true"
+          <svg class="w-[24px] h-[24px] text-gray-500" aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
               d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
