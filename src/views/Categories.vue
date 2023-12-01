@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import axios from 'axios';
 import { defineStore } from 'pinia';
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import { createToaster } from "@meforma/vue-toaster";
 
 const isOpen = ref(false);
@@ -11,10 +11,15 @@ const deletebtn = ref(false);
 const idDelete = ref(null);
 const data = ref([]);
 
+const searchQuery = ref("");
+const itemsPerPage = 10;
+const currentPage = ref(0);
+
 
 const form = ref({
   category_name: '',
 });
+
 
 const toaster = createToaster({
   position: 'bottom-right',
@@ -29,14 +34,14 @@ const toaster = createToaster({
 
   success: {
     theme: 'success',
-    icon: 'check-circle', // Use a success-specific icon
-    transition: 'slide-up', // Use a different transition for success toasts
+    icon: 'check-circle',
+    transition: 'slide-up',
   },
 
   error: {
     theme: 'error',
-    icon: 'exclamation-triangle', // Use an error-specific icon
-    transition: 'slide-down', // Use a different transition for error toasts
+    icon: 'exclamation-triangle',
+    transition: 'slide-down',
   },
 });
 
@@ -45,9 +50,10 @@ const fetchData = async () => {
   try {
     const response = await axios.get('/api/admin/category/list');
     data.value = response.data.data;
-    console.log(data.value);
 
-    if(response.data.source == "CategoryNotFound"){
+    console.log('Categories', data.value);
+
+    if (response.data.source == "CategoryNotFound") {
       data.value = null;
     }
   } catch (error) {
@@ -70,8 +76,8 @@ const handleCategoryUpdate = async (id) => {
     });
 
     if (response.data.status === 'success') {
-      form.value.category_name = ''; 
-      editbtn.value = false; 
+      form.value.category_name = '';
+      editbtn.value = false;
       toaster.success(`Successfully updated`);
       console.log(response.data);
       fetchData(); // Refresh the data
@@ -93,7 +99,7 @@ const deleteId = async (id) => {
 const handleDelete = async (id) => {
   try {
     const response = await axios.post(`/api/admin/category/delete/${id}`);
-    
+
     if (response.data.status === "success") {
       deletebtn.value = false;
     }
@@ -106,13 +112,45 @@ const handleDelete = async (id) => {
   }
 };
 
-onMounted(() => {
-  fetchData();
+// Compute the filtered data based on the search query
+const filteredData = computed(() => {
+  const lowerCaseQuery = searchQuery.value.toLowerCase().trim();
+  const categoriesArray = Object.values(data.value);
+
+  return lowerCaseQuery
+    ? categoriesArray.filter((category) =>
+      category.category_name.toLowerCase().includes(lowerCaseQuery)
+    )
+    : categoriesArray;
 });
 
-const computedData = computed(() => {
-  console.log(data.value);
-  return data.value;
+// Compute the sliced data based on the current page
+const slicedData = computed(() => {
+  const startIndex = currentPage.value * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+
+  return filteredData.value.slice(startIndex, endIndex);
+});
+
+// Compute the total number of pages
+const totalPages = computed(() => Math.ceil(filteredData.value.length / itemsPerPage));
+
+// Watch for changes in the search query and reset the current page when searching
+watch(searchQuery, () => {
+  currentPage.value = 0;
+});
+
+// Function to handle pagination
+const goToPage = (direction) => {
+  if (direction === "prev" && currentPage.value > 0) {
+    currentPage.value--;
+  } else if (direction === "next" && currentPage.value < totalPages.value - 1) {
+    currentPage.value++;
+  }
+};
+
+onMounted(() => {
+  fetchData();
 });
 
 </script>
@@ -133,8 +171,9 @@ const computedData = computed(() => {
           </svg>
         </span>
 
-        <input placeholder="Search"
-          class="block w-full py-2 pl-8 pr-6 text-sm text-gray-700 placeholder-gray-400 bg-white border border-b border-gray-400 rounded-l rounded-r appearance-none sm:rounded-l-none focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none">
+        <input v-model="searchQuery" placeholder="Search" class="block w-full py-2 pl-8 pr-6 text-sm text-gray-700 placeholder-gray-400 
+          bg-white border border-b border-gray-400 rounded-l rounded-r appearance-none 
+          sm:rounded-l-none focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none" />
       </div>
     </div>
 
@@ -170,7 +209,7 @@ const computedData = computed(() => {
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item in computedData" :key="item.id">
+            <tr v-for="(item, index) in slicedData" :key="index">
               <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
                 <div class="flex items-center">
                   <div>
@@ -209,28 +248,16 @@ const computedData = computed(() => {
                 <div class="mx-4">
 
                   <!-- UPDATE MODAL -->
-                  <button
-                  
-                    class="'absolute inset-0 btn-clr-primary rounded-md p-2 px-5 text-white hover:text-indigo-200"
+                  <button class="'absolute inset-0 btn-clr-primary rounded-md p-2 px-5 text-white hover:text-indigo-200"
                     @click="updateId(item.id)">
                     Edit
                   </button>
                   <div :class="`modal ${!editbtn && 'opacity-0 pointer-events-none'
                     } z-50 fixed w-full h-full top-0 left-0 flex items-center justify-center`">
-                    <div class="absolute w-full h-full bg-gray-900 opacity-20 modal-overlay" @click="editbtn = false" />
+                    <div class="absolute w-full h-full bg-gray-900 opacity-5 modal-overlay" @click="editbtn = false" />
 
                     <div
                       class="z-50 w-11/12 mx-auto overflow-y-auto bg-white rounded shadow-lg modal-container md:max-w-md">
-                      <div
-                        class="absolute top-0 right-0 z-50 flex flex-col items-center mt-4 mr-4 text-sm text-white cursor-pointer modal-close">
-                        <svg class="text-white fill-current" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
-                          viewBox="0 0 18 18">
-                          <path
-                            d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z" />
-                        </svg>
-                        <span class="text-sm">(Esc)</span>
-                      </div>
-
                       <div class="px-6 py-4 text-left modal-content">
                         <div class="flex items-center justify-between pb-3">
                           <p class="text-2xl font-bold">
@@ -254,8 +281,7 @@ const computedData = computed(() => {
                             @click="editbtn = false">
                             Close
                           </button>
-                          <button
-                            class="px-6 py-3 font-medium tracking-wide text-white btn-clr-primary rounded-md"
+                          <button class="px-6 py-3 font-medium tracking-wide text-white btn-clr-primary rounded-md"
                             @click="handleCategoryUpdate(idUpdate)">
                             Save
                           </button>
@@ -267,25 +293,15 @@ const computedData = computed(() => {
                   <!-- Delete modal -->
                   <button
                     class="'absolute lg:mx-3 mt-2 lg:mt-0 inset-0 bg-red-600 rounded-md  p-2 px-3 text-white hover:text-red-200"
-                    @click="deleteId(item.id)" >
+                    @click="deleteId(item.id)">
                     Delete
                   </button>
                   <div :class="`modal ${!deletebtn && 'opacity-0 pointer-events-none'
                     } z-50 fixed w-full h-full top-0 left-0 flex items-center justify-center`">
-                    <div class="absolute w-full h-full bg-gray-900 opacity-20 modal-overlay" @click="deletebtn = false" />
+                    <div class="absolute w-full h-full bg-gray-900 opacity-5 modal-overlay" @click="deletebtn = false" />
 
                     <div
                       class="z-50 w-11/12 mx-auto overflow-y-auto bg-white rounded shadow-lg modal-container md:max-w-md">
-                      <div
-                        class="absolute top-0 right-0 z-50 flex flex-col items-center mt-4 mr-4 text-sm text-white cursor-pointer modal-close">
-                        <svg class="text-white fill-current" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
-                          viewBox="0 0 18 18">
-                          <path
-                            d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z" />
-                        </svg>
-                        <span class="text-sm">(Esc)</span>
-                      </div>
-
                       <div class="px-6 py-4 text-left modal-content">
                         <div class="flex items-center justify-between pb-3">
                           <p class="text-2xl font-bold">
@@ -300,7 +316,8 @@ const computedData = computed(() => {
                           </div>
                         </div>
 
-                        <p class="text-md font-normal tracking-wider text-left text-gray-900 mb-3">Are you sure you want to delete this Category?</p>
+                        <p class="text-md font-normal tracking-wider text-left text-gray-900 mb-3">Are you sure you want
+                          to delete this Category?</p>
 
                         <div class="flex justify-end pt-2">
                           <button
@@ -324,10 +341,12 @@ const computedData = computed(() => {
         </table>
         <div class="flex flex-col items-center px-5 py-5 bg-white border-t xs:flex-row xs:justify-between">
           <div class="inline-flex mt-2 xs:mt-0">
-            <button class="px-4 py-2 text-sm font-semibold text-gray-800 bg-gray-300 rounded-l hover:bg-gray-400">
+            <button @click="goToPage('prev')" :disabled="currentPage === 0"
+              class="px-4 py-2 text-sm font-semibold text-gray-800 bg-gray-300 rounded-l hover:bg-gray-400">
               Prev
             </button>
-            <button class="px-4 py-2 text-sm font-semibold text-gray-800 bg-gray-300 rounded-r hover:bg-gray-400">
+            <button @click="goToPage('next')" :disabled="currentPage === totalPages - 1"
+              class="px-4 py-2 text-sm font-semibold text-gray-800 bg-gray-300 rounded-r hover:bg-gray-400">
               Next
             </button>
           </div>
