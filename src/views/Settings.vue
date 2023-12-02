@@ -2,56 +2,104 @@
 import axios from 'axios';
 import { ref, onMounted } from 'vue';
 import { useAuthStore } from '../js/adminAuth.js';
+import { useRouter } from 'vue-router';
+import { createToaster } from "@meforma/vue-toaster";
 
 const authStore = useAuthStore();
 const data = ref([]);
-
+const router = useRouter();
 const form = ref({
-  fullname: 'fullname',
+  fullname: null,
+  current_password: null,
+  new_password: null,
+  confirm_password: null,
 });
 
-// console.log(authStore.user?.isAuthenticated);
+const toaster = createToaster({
+  position: 'bottom-right',
+  duration: 3000,
+  maxToasts: 1,
+  pauseOnHover: true,
+  closeOnClick: true,
+  progressBar: true,
+  theme: 'default',
+  icon: 'info',
+  transition: 'fade',
 
-interface User {
-  fullname: string
-  email: string
-  oldPassword: string
-  newPassword: string
-}
+  success: {
+    theme: 'success',
+    icon: 'check-circle',
+    transition: 'slide-up',
+  },
 
-const user = ref<User>({
-  fullname: '',
-  email: '',
-  oldPassword: '',
-  newPassword: '',
+  error: {
+    theme: 'error',
+    icon: 'exclamation-triangle',
+    transition: 'slide-down',
+  },
 });
 
 const fetchData = async () => {
   try{
     const response = await axios.get('api/admin/getDetails');
-    data.value = response.data.data;
+    form.value.fullname = response.data.fullname;
 
-    console.log(response.data);
+    console.log(form.value.fullname);
   } catch (error){
     console.error("Error fetching data", error);
   }
 }
 
-const handleProfileInfoUpdate = async () => {
+const handleProfileInfoUpdate = async (fullname) => {
   try{
-    const { fullname } = form.value;
-
     const response = await axios.post('api/admin/updateBasic', {
       fullname: fullname,
     });
-
     if(response.data.status === 'success'){
-      form.value.fullname = '';
-      fetchData();
+      toaster.success(`Successfully updated Profile Information`);
+    } else {
+      toaster.error(`Error updating Profile Information`);
     }
 
   } catch (error) {
-    console.error('Error updating data:', error);
+    console.error('Error updating data', error);
+  }
+}
+
+
+const updatePassword = async () => {
+  try {
+    const { current_password, new_password, confirm_password } = form.value;
+
+    const response = await axios.post('api/admin/changePassword', {
+      current_password: current_password,
+      new_password: new_password,
+      confirm_password: confirm_password,
+    });
+
+    if(response.data.status === 'success'){
+      toaster.success(`Successfully updated Password`);
+    } else {
+      toaster.error(`Failed to update Password`);
+    }
+  } catch (error) {
+    console.error('Error updating data', error)
+  }
+}
+
+
+const handleDeleteAccount = async () => {
+  try{
+    const response = await axios.post('api/admin/deleteAdmin', authStore.logout());
+  
+    if (response.data.status === "success") {
+      router.push('/login');
+      toaster.success(`Successfully deleted account`);
+    } else{
+      toaster.success(`Error delete account`);
+    }
+  } catch (error) {
+    console.error("Erro deleting data", error);
   }
 }
 
@@ -83,13 +131,13 @@ onMounted(() =>{
           </h6>
           <div class="grid grid-rows-1 gap-3 mt-4 sm:grid-rows-2">
             <div>
-              <label class="text-gray-500 text-sm" for="username">Name</label><br>
-              <input
+              <label class="text-gray-500 text-sm">Fullname</label><br>
+              <input v-model="form.fullname"
                 class="w-full lg:w-6/12 mt-2 border-gray-700 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
                 type="text">
             </div>
             <div >
-              <button class="py-4 px-6 font-medium tracking-wide text-white btn-clr-primary rounded-md">
+              <button @click="handleProfileInfoUpdate" class="py-4 px-6 font-medium tracking-wide text-white btn-clr-primary rounded-md">
                 Save
               </button>
             </div>    
@@ -109,12 +157,14 @@ onMounted(() =>{
             <div>
               <label class="text-gray-500 text-sm" for="password">Current Password</label><br>
               <input
+                v-model="form.current_password"
                 class="w-full lg:w-6/12 mt-2 border-gray-700 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
                 type="password">
             </div>
             <div>
               <label class="text-gray-500 text-sm" for="password">Password</label><br>
               <input
+                v-model="form.new_password"
                 class="w-full lg:w-6/12 mt-2 border-gray-700 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
                 type="password">
             </div>
@@ -122,13 +172,14 @@ onMounted(() =>{
             <div>
               <label class="text-gray-500 text-sm" for="passwordConfirmation">Confirm Password</label><br>
               <input
+                v-model="form.confirm_password"
                 class="w-full lg:w-6/12 m5 mt-2 border-gray-700 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
                 type="password">
             </div>
           </div>
 
           <div class="flex justify-start mt-6">
-            <button class="px-6 py-3 font-medium tracking-wide text-white btn-clr-primary rounded-md">
+            <button @click="updatePassword" class="px-6 py-3 font-medium tracking-wide text-white btn-clr-primary rounded-md">
               Save
             </button>
           </div>
@@ -145,7 +196,7 @@ onMounted(() =>{
         </h6>
 
         <div class="sm:rounded-lg">
-          <button class="px-6 py-2 text-white bg-red-600 rounded-md">
+          <button @click="handleDeleteAccount" class="px-6 py-2 text-white bg-red-600 rounded-md">
             Delete
           </button>
         </div>
