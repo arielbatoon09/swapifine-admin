@@ -406,8 +406,6 @@ const computedData = computed(() => {
           </tbody>
         </table>
         <div class="flex flex-col items-center px-5 py-5 bg-white border-t xs:flex-row xs:justify-between">
-          <span class="text-xs text-gray-900 xs:text-sm">Showing 1 to 4 of 50 Entries</span>
-
           <div class="inline-flex mt-2 xs:mt-0">
             <button @click="goToPage('prev')" :disabled="currentPage === 0"
             class="px-4 py-2 text-sm font-semibold text-gray-800 bg-gray-300 rounded-l hover:bg-gray-400">

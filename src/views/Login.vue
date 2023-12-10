@@ -11,7 +11,7 @@ const authStore = useAuthStore();
 
 const toaster = createToaster({
   position: 'bottom-right',
-  duration: 3000,
+  duration: 2000,
   maxToasts: 1,
   pauseOnHover: true,
   closeOnClick: true,

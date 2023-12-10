@@ -389,12 +389,12 @@ const computedData = computed(() => {
                             <div>
                               <input
                                 class="w-full mt-2 border-gray-200 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500 mb-3"
-                                v-model="form.fullname" type="text" name="fullname" placeholder="New Fullname">
+                                v-model="form.fullname" type="text" name="fullname" placeholder="Fullname">
                             </div>
                             <div>
                               <input
                                 class="w-full mt-2 border-gray-200 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500 mb-3"
-                                v-model="form.email" type="text" name="email" placeholder="New Email">
+                                v-model="form.email" type="text" name="email" placeholder="Email">
                             </div>
 
                             <!-- Footer -->
@@ -466,8 +466,6 @@ const computedData = computed(() => {
         </tbody>
       </table>
       <div class="flex flex-col items-center px-5 py-5 bg-white border-t xs:flex-row xs:justify-between">
-        <span class="text-xs text-gray-900 xs:text-sm">Showing 1 to 4 of 50 Entries</span>
-
         <div class="inline-flex mt-2 xs:mt-0">
           <button @click="goToPage('prev')" :disabled="currentPage === 0"
             class="px-4 py-2 text-sm font-semibold text-gray-800 bg-gray-300 rounded-l hover:bg-gray-400">

@@ -4,6 +4,7 @@ import { ref, onMounted } from 'vue';
 import { useAuthStore } from '../js/adminAuth.js';
 import { useRouter } from 'vue-router';
 import { createToaster } from "@meforma/vue-toaster";
+import { restElement } from '@babel/types';
 
 const authStore = useAuthStore();
 const data = ref([]);
@@ -14,6 +15,14 @@ const form = ref({
   new_password: null,
   confirm_password: null,
 });
+
+const reloadAndRedirect = () => {
+  // Reload the current page
+  location.reload();
+
+  // Redirect to the login page after reloading
+  window.location.href = '/login'; // Replace '/login' with the actual URL of your login page
+};
 
 const toaster = createToaster({
   position: 'bottom-right',
@@ -44,17 +53,17 @@ const fetchData = async () => {
     const response = await axios.get('api/admin/getDetails');
     form.value.fullname = response.data.fullname;
 
-    console.log(form.value.fullname);
   } catch (error){
     console.error("Error fetching data", error);
   }
 }
 
-const handleProfileInfoUpdate = async (fullname) => {
+const handleProfileInfoUpdate = async () => {
   try{
     const response = await axios.post('api/admin/updateBasic', {
-      fullname: fullname,
+      fullname: form.value.fullname,
     });
+    console.log(response);
     if(response.data.status === 'success'){
       toaster.success(`Successfully updated Profile Information`);
     } else {
@@ -62,6 +71,7 @@ const handleProfileInfoUpdate = async (fullname) => {
     }
 
   } catch (error) {
+    toaster.error(`Error updating Profile Information`);
     console.error('Error updating data', error);
   }
 }
@@ -77,12 +87,17 @@ const updatePassword = async () => {
       confirm_password: confirm_password,
     });
 
+
     if(response.data.status === 'success'){
+      authStore.logout();
+      router.push('/login');
       toaster.success(`Successfully updated Password`);
+      // location.reload();
     } else {
       toaster.error(`Failed to update Password`);
     }
   } catch (error) {
+    toaster.error(`Failed to update Password`);
     console.error('Error updating data', error)
   }
 }
@@ -96,9 +111,10 @@ const handleDeleteAccount = async () => {
       router.push('/login');
       toaster.success(`Successfully deleted account`);
     } else{
-      toaster.success(`Error delete account`);
+      toaster.error(`Error delete account`);
     }
   } catch (error) {
+    toaster.error(`Error delete account`);
     console.error("Erro deleting data", error);
   }
 }
@@ -122,7 +138,7 @@ onMounted(() =>{
   <div class="py-7">
     <div class="max-w-7xl mx-auto space-y-6">
       <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-        <form>
+        <div>
           <h3 class="text-gray-700 text-1xl font-medium mb-2">
             Profile Information
           </h3>
@@ -142,11 +158,11 @@ onMounted(() =>{
               </button>
             </div>    
           </div>
-        </form>
+        </div>
       </div>
 
       <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-        <form>
+        <div>
           <h3 class="text-gray-700 text-1xl font-medium mb-2">
             Update Password
           </h3>
@@ -183,7 +199,7 @@ onMounted(() =>{
               Save
             </button>
           </div>
-        </form>
+        </div>
       </div>
 
       <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
