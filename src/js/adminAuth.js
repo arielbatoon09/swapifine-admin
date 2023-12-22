@@ -27,7 +27,8 @@ export const useAuthStore = defineStore('auth', {
                 });
 
                 if(response.data.status === 'success') {
-                    useCookies.set('isLoggedIn', true);
+                    // useCookies.set('isLoggedIn', true);
+                    localStorage.setItem('isLoggedIn', true);
                 }
                 return response.data;
             } catch (error) {
@@ -37,7 +38,9 @@ export const useAuthStore = defineStore('auth', {
         async logout() {
             try {
                 await axios.get('/api/admin/logout');
-                useCookies.remove('isLoggedIn');
+                // useCookies.remove('isLoggedIn');
+                localStorage.removeItem('isLoggedIn', true);
+            
                 this.authUser = null;
             } catch (error) {
                 console.error(error);

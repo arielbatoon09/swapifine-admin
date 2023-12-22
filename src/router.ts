@@ -1,6 +1,6 @@
 import type { RouteRecordRaw } from 'vue-router'
 import { createRouter, createWebHistory } from 'vue-router'
-import useCookies from 'vue-cookies'
+import VueCookies from 'vue-cookies'
 
 import Dashboard from './views/Dashboard.vue'
 import Categories from './views/Categories.vue'
@@ -115,7 +115,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const isLoggedIn = useCookies.get('isLoggedIn') ? true : false;
+  const isLoggedIn = localStorage.getItem('isLoggedIn') ? true : false;
   const requiresAuth = to.matched.some(record => record.meta.requiredAuth);
 
   if (to.path === '/') {
