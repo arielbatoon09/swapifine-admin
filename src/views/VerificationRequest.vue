@@ -17,7 +17,6 @@ const fetchData = async () => {
 
     if(response.data != null){
       data.value = response.data.data;
-      console.log('Categories', data.value);
     }
   } catch (error) {
     console.error("Error fetching data", error);
@@ -31,8 +30,6 @@ const getVerificationDetailsByID = async (id) => {
     });
     
     dataByID.value = response.data.data;
-
-    console.log(dataByID);
 
   } catch (error){
     console.error("error fetching data", error);
@@ -52,8 +49,6 @@ const updateVerificationStatus = async (id, status) => {
 
     // Re-render data
     fetchData();
-
-    console.log(dataByID);
   } catch (error){
     console.error("Error fetching data", error);
   }
@@ -102,7 +97,6 @@ onMounted(() => {
 });
 
 const computedData = computed(() => {
-  console.log(data.value);
   return data.value;
 });
 </script>

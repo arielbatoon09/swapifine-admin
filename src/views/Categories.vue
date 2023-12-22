@@ -52,8 +52,6 @@ const fetchData = async () => {
     const response = await axios.get('/api/admin/category/list');
     data.value = response.data.data;
 
-    console.log('Categories', data.value);
-
     if (response.data.source == "CategoryNotFound") {
       data.value = null;
     }

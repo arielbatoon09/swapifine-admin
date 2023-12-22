@@ -69,7 +69,6 @@ const handleInvite = async () => {
       toaster.error("Failed to invite");
     }
 
-    console.log(response.data);
     fetchData(); // Call fetchData to update the data after a successful invite.
 
   } catch (error) {
@@ -154,7 +153,6 @@ const handleDelete = async (id) => {
       toaster.error("Failed to delete");
     }
 
-    console.log(response.data.status);
     fetchData(); // Refresh the data after successful deletion.
   } catch (error) {
     console.error("Error deleting data", error);
@@ -200,7 +198,6 @@ const goToPage = (direction) => {
 };
 
 const computedData = computed(() => {
-  console.log(data.value);
   return data.value;
 });
 </script>

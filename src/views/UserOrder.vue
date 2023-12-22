@@ -17,7 +17,6 @@ const fetchData = async () => {
     if (response.data != null) {
       data.value = response.data.data;
     }
-    console.log(response.data);
   } catch (error) {
     console.error("error fetching data", error);
   }
@@ -29,8 +28,6 @@ const userOrderDetailsByID = async (id) => {
       id: id,
     });
     dataByID.value = response.data.data;
-
-    console.log(dataByID)
   } catch (error) {
     console.error("error fetching data", error);
   }

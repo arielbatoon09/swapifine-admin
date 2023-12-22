@@ -68,7 +68,6 @@ const handUserUpdate = async (id) => {
       editbtn.value = false
 
       toaster.success(`Successfully updated`);
-      console.log(response.data);
       fetchData();
     } else {
       toaster.error(`Failed to update`);
@@ -161,10 +160,9 @@ const goToPage = (direction) => {
   }
 };
 
-const computedData = computed(() => {
-  console.log(data.value);
-  return data.value;
-});
+// const computedData = computed(() => {
+//   return data.value;
+// });
 </script>
 
 <template>

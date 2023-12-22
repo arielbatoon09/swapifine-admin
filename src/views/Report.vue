@@ -16,7 +16,6 @@ const fetchData = async () => {
     if (response.data != null) {
       data.value = response.data.data
     }
-    console.log(data.value);
   } catch (error) {
     console.error("Error fetching data", error);
   }
@@ -33,7 +32,6 @@ const getReportedUserByID = async (id) => {
     });
     dataByID.value = response.data.data;
 
-    console.log(dataByID);
   } catch (error) {
     console.error("Error fetching data", error);
   }
@@ -78,7 +76,6 @@ const goToPage = (direction) => {
 };
 
 const computedData = computed(() => {
-  console.log(data.value);
   return data.value;
 });
 

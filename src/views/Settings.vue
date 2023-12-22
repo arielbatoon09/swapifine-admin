@@ -10,6 +10,8 @@ const authStore = useAuthStore();
 const data = ref([]);
 const router = useRouter();
 const isRequest = ref(false);
+const fullnameUpdate = ref(false);
+const delRequest = ref(false);
 
 const form = ref({
   fullname: null,
@@ -62,12 +64,12 @@ const fetchData = async () => {
 
 const handleProfileInfoUpdate = async () => {
   try {
-    isRequest.value = true;
+    fullnameUpdate.value = true;
     const response = await axios.post('api/admin/updateBasic', {
       fullname: form.value.fullname,
     });
 
-    isRequest.value = false;
+    fullnameUpdate.value = false;
 
     if (response.data.status === 'success') {
       toaster.success(`Successfully updated Profile Information`);
@@ -100,10 +102,12 @@ const updatePassword = async () => {
       authStore.logout();
       router.push('/login');
       toaster.success(`Successfully updated Password`);
-      // location.reload();
+      location.reload();
     } else {
       toaster.error(`Failed to update Password`);
     }
+
+    
   } catch (error) {
     toaster.error(`Failed to update Password`);
     console.error('Error updating data', error)
@@ -113,11 +117,11 @@ const updatePassword = async () => {
 
 const handleDeleteAccount = async () => {
   try {
-    isRequest.value = true;
+    delRequest.value = true;
 
     const response = await axios.post('api/admin/deleteAdmin', authStore.logout());
 
-    isRequest.value = false;
+    delRequest.value = false;
 
     if (response.data.status === "success") {
       router.push('/login');
@@ -165,7 +169,7 @@ onMounted(() => {
                 type="text">
             </div>
             <div>
-              <button v-if="!isRequest" @click="handleProfileInfoUpdate"
+              <button v-if="!fullnameUpdate" @click="handleProfileInfoUpdate"
                 class="py-4 px-6 font-medium tracking-wide text-white btn-clr-primary rounded-md">
                 Save
               </button>
@@ -231,7 +235,7 @@ onMounted(() => {
         </h6>
 
         <div class="sm:rounded-lg">
-          <button v-if="!isRequest" @click="handleDeleteAccount" class="px-6 py-2 text-white bg-red-600 rounded-md">
+          <button v-if="!delRequest" @click="handleDeleteAccount" class="px-6 py-2 text-white bg-red-600 rounded-md">
             Delete
           </button>
           <button v-else disabled @click="handleDeleteAccount" class="px-6 py-2 text-white bg-red-600 rounded-md">

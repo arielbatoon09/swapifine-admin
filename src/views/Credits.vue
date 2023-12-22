@@ -18,8 +18,6 @@ const fetchData = async () => {
             data.value = response.data.data;
 
         }
-        console.log(data.value);
-
     } catch (error) {
         console.error("error fetching data", error);
     }
@@ -32,9 +30,6 @@ const getCreditsDetailsByID = async (id) => {
         });
 
         dataByID.value = response.data.data;
-
-        console.log(dataByID);
-
     } catch (error) {
         console.error("error fetching data", error);
     }

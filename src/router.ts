@@ -15,12 +15,7 @@ import Report from './views/Report.vue'
 import AdminManagement from './views/AdminManagement.vue'
 import Settings from './views/Settings.vue'
 import Forms from './views/Forms.vue'
-import Tables from './views/Tables.vue'
-import UIElements from './views/UIElements.vue'
 import Login from './views/Login.vue'
-import Modal from './views/Modal.vue'
-import Card from './views/Card.vue'
-import Blank from './views/Blank.vue'
 
 const routes: RouteRecordRaw[] = [
   {
@@ -105,36 +100,6 @@ const routes: RouteRecordRaw[] = [
     path: '/settings',
     name: 'Settings',
     component: Settings,
-    meta: { requiredAuth: true },
-  },
-  {
-    path: '/forms',
-    name: 'Forms',
-    component: Forms,
-    meta: { requiredAuth: true },
-  },
-  {
-    path: '/cards',
-    name: 'Cards',
-    component: Card,
-    meta: { requiredAuth: true },
-  },
-  {
-    path: '/ui-elements',
-    name: 'UIElements',
-    component: UIElements,
-    meta: { requiredAuth: true },
-  },
-  {
-    path: '/modal',
-    name: 'Modal',
-    component: Modal,
-    meta: { requiredAuth: true },
-  },
-  {
-    path: '/blank',
-    name: 'Blank',
-    component: Blank,
     meta: { requiredAuth: true },
   },
   {

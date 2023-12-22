@@ -17,7 +17,6 @@ const fetchData = async () => {
 
         if (response.data != null) {
             data.value = response.data.data;
-            console.log(data.value);
         }
     } catch (error) {
         console.error("Error fetching data", error);
@@ -31,7 +30,6 @@ const getWithdrawalByID = async (id) => {
         });
 
         dataByID.value = response.data.data;
-        console.log(dataByID);
     } catch (error) {
         console.error("Erro fetching data", error);
     }
@@ -47,7 +45,6 @@ const updateWithdrawalStatus = async (id, status) => {
 
         dataByID.value = response.data.data;
         fetchData();
-        console.log(dataByID);
     } catch (error) {
         console.error("error fetching data", error);
     }
@@ -95,7 +92,6 @@ onMounted(() => {
 });
 
 const computedData = computed(() => {
-    console.log(data.value);
     return data.value;
 });
 

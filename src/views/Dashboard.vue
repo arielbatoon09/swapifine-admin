@@ -15,7 +15,6 @@ const fetchTotal = async () => {
     if(response.data != null){
       totalData.value = response.data.data;
     }
-    console.log(totalData);
   } catch (error) {
     console.error("error fetching data", error);
   }
@@ -24,10 +23,10 @@ const fetchTotal = async () => {
 const fetchData = async () => {
   try {
     const response = await axios.post('/api/admin/top-users');
+
     if (response.data != null) {
       data.value = response.data.data
     }
-    console.log(response.data);
   } catch (error) {
     console.error("Error fetching data", error);
   }
@@ -38,7 +37,6 @@ onMounted(() => {
 });
 
 const computedData = computed(() => {
-  console.log(data.value);
   return data.value, totalData.value;
 });
 </script>
