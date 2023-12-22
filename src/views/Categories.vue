@@ -10,6 +10,7 @@ const idUpdate = ref(null);
 const deletebtn = ref(false);
 const idDelete = ref(null);
 const data = ref([]);
+const isRequest = ref(false);
 
 const searchQuery = ref("");
 const itemsPerPage = 10;
@@ -68,12 +69,16 @@ const updateId = async (id) => {
 }
 const handleCategoryUpdate = async (id) => {
   try {
+
+    isRequest.value = true;
     const { category_name } = form.value;
 
     const response = await axios.post('api/admin/category/update', {
       id: id,
       category_name: category_name,
     });
+
+    isRequest.value = false;
 
     if (response.data.status === 'success') {
       form.value.category_name = '';
@@ -98,7 +103,11 @@ const deleteId = async (id) => {
 
 const handleDelete = async (id) => {
   try {
+
+    isRequest.value = true;
     const response = await axios.post(`/api/admin/category/delete/${id}`);
+
+    isRequest.value = false;
 
     if (response.data.status === "success") {
       deletebtn.value = false;
@@ -282,8 +291,12 @@ onMounted(() => {
                             Close
                           </button>
                           <button class="px-6 py-3 font-medium tracking-wide text-white btn-clr-primary rounded-md"
-                            @click="handleCategoryUpdate(idUpdate)">
+                            v-if="!isRequest" @click="handleCategoryUpdate(idUpdate)">
                             Save
+                          </button>
+                          <button class="px-6 py-3 font-medium tracking-wide text-white bg-cyan-900 rounded-md"
+                            v-else disabled @click="handleCategoryUpdate(idUpdate)">
+                            Updating
                           </button>
                         </div>
                       </div>
@@ -327,8 +340,13 @@ onMounted(() => {
                           </button>
                           <button
                             class="px-4 py-2 mt-1 font-medium tracking-wide text-white bg-red-700 rounded-md hover:bg-red-500 focus:outline-none"
-                            @click="handleDelete(idDelete)">
+                            v-if="!isRequest" @click="handleDelete(idDelete)">
                             Delete
+                          </button>
+                          <button
+                            class="px-4 py-2 mt-1 font-medium tracking-wide text-white bg-red-900 rounded-md focus:outline-none"
+                            v-else disabled @click="handleDelete(idDelete)">
+                            Deleting
                           </button>
                         </div>
                       </div>

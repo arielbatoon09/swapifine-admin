@@ -9,6 +9,7 @@ const editbtn = ref(false);
 const idUpdate = ref(null)
 const deletebtn = ref(false);
 const idDelete = ref(null);
+const isRequest = ref(false);
 
 const searchQuery = ref("");
 const itemsPerPage = 10;
@@ -50,6 +51,7 @@ const updateUser = async (id) => {
 
 const handUserUpdate = async (id) => {
   try {
+    isRequest.value = true;
     const { fullname, email } = form.value;
 
     const response = await axios.post('api/user/update', {
@@ -57,6 +59,8 @@ const handUserUpdate = async (id) => {
       fullname: fullname,
       email: email,
     });
+
+    isRequest.value = false;
 
     if (response.data.status === 'success') {
       form.value.fullname = '';
@@ -99,7 +103,11 @@ const deleteId = async (id) => {
 
 const handleDelete = async (id) => {
   try {
+    isRequest.value = true;
+
     const response = await axios.post(`/api/user/delete/${id}`);
+
+    isRequest.value = false;
 
     if (response.data.status === "success") {
       deletebtn.value = false;
@@ -339,8 +347,12 @@ const computedData = computed(() => {
                                 Close
                               </button>
                               <button class="px-6 py-3 font-medium tracking-wide text-white btn-clr-primary rounded-md"
-                                @click="handUserUpdate(idUpdate)">
+                                v-if="!isRequest" @click="handUserUpdate(idUpdate)">
                                 Save
+                              </button>
+                              <button class="px-6 py-3 font-medium tracking-wide text-white btn-clr-primary rounded-md"
+                                v-else disabled @click="handUserUpdate(idUpdate)">
+                                Updating
                               </button>
                             </div>
                           </div>
@@ -388,8 +400,13 @@ const computedData = computed(() => {
                               </button>
                               <button
                                 class="px-4 py-2 mt-1 font-medium tracking-wide text-white bg-red-700 rounded-md hover:bg-red-500 focus:outline-none"
-                                @click="handleDelete(idDelete)">
+                                v-if="!isRequest" @click="handleDelete(idDelete)">
                                 Delete
+                              </button>
+                              <button
+                                class="px-4 py-2 mt-1 font-medium tracking-wide text-white bg-red-700 rounded-md hover:bg-red-500 focus:outline-none"
+                                v-else disabled @click="handleDelete(idDelete)">
+                                Deleting
                               </button>
                             </div>
                           </div>

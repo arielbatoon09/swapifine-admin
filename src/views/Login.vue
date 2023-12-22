@@ -8,6 +8,7 @@ import { createToaster } from "@meforma/vue-toaster";
 
 const router = useRouter();
 const authStore = useAuthStore();
+const isRequest = ref(false);
 
 const toaster = createToaster({
   position: 'bottom-right',
@@ -40,12 +41,14 @@ const form = ref({
 
 const handleLogin = async () => {
   try {
-    
+    isRequest.value = true;
     // Init Form Value
     const { email, password } = form.value;
 
     // Pass the data argument to login store function
     const response = await authStore.login(email, password);
+
+    isRequest.value = false;
 
     // Cancel loading state if the response is true
     if (response.status == 'success') {
@@ -77,20 +80,24 @@ onMounted(() => {
       <form class="mt-4" @submit.prevent="handleLogin">
         <label class="block">
           <span class="text-sm text-gray-700">Email</span>
-          <input type="email"
-          v-model="form.email" class="block w-full mt-1 border-gray-200 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500">
+          <input type="email" v-model="form.email"
+            class="block w-full mt-1 border-gray-200 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500">
         </label>
 
         <label class="block mt-3 mb-6">
           <span class="text-sm text-gray-700">Password</span>
-          <input type="password"
-          v-model="form.password" class="block w-full mt-1 border-gray-200 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500">
+          <input type="password" v-model="form.password"
+            class="block w-full mt-1 border-gray-200 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500">
         </label>
 
         <div class="mt-2">
-          <button @click="handleLogin"
+          <button v-if="!isRequest" @click="handleLogin"
             class="w-full px-4 py-4 text-sm text-center text-white btn-clr-primary rounded-md">
             Sign in
+          </button>
+          <button v-else disabled
+            class="w-full px-4 py-4 text-sm text-center text-white bg-cyan-900 rounded-md">
+            Loading...
           </button>
         </div>
       </form>

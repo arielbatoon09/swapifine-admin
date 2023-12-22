@@ -10,6 +10,7 @@ const idUpdate = ref(null);;
 const deletebtn = ref(false);
 const idDelete = ref(null);
 const data = ref([]);
+const isRequest = ref(false);
 
 const searchQuery = ref("");
 const itemsPerPage = 10;
@@ -47,12 +48,17 @@ const toaster = createToaster({
 // ADD ADMIN
 const handleInvite = async () => {
   try {
+
+    isRequest.value = true;
+
     const { fullname, email } = form.value;
 
     const response = await axios.post('api/admin/invite', {
       fullname: fullname,
       email: email,
     });
+
+    isRequest.value = false;
 
     if (response.data.status == 'success') {
       form.value.fullname = '';
@@ -95,6 +101,9 @@ const updateAdmin = async (id) => {
 
  const handAdminUpdate = async (id) => {
   try {
+
+    isRequest.value = true;
+
     const { email, fullname } = form.value;
 
     const response = await axios.post('api/admin/update', {
@@ -102,6 +111,8 @@ const updateAdmin = async (id) => {
       fullname: fullname,
       email: email,
     });
+
+    isRequest.value = false;
 
     if(response.data.status === 'success') {
       form.value.fullname = '';
@@ -129,7 +140,12 @@ const deleteId = async (id) => {
 
 const handleDelete = async (id) => {
   try {
+
+    isRequest.value = true;
+
     const response = await axios.post(`/api/admin/delete/${id}`);
+
+    isRequest.value = false;
     
     if (response.data.status === "success") {
       deletebtn.value = false;
@@ -239,8 +255,12 @@ const computedData = computed(() => {
               Close
             </button>
             <button class="px-6 py-3 font-medium tracking-wide text-white btn-clr-primary rounded-md"
-              @click="handleInvite()">
+              v-if="!isRequest" @click="handleInvite()">
               Send
+            </button>
+            <button class="px-6 py-3 font-medium tracking-wide text-white btn-clr-primary rounded-md"
+              v-else disabled @click="handleInvite()">
+              Sending
             </button>
           </div>
         </div>
@@ -406,8 +426,13 @@ const computedData = computed(() => {
                               </button>
                               <button
                                 class="px-6 py-3 font-medium tracking-wide text-white btn-clr-primary rounded-md"
-                                @click="handAdminUpdate(idUpdate)">
+                                v-if="!isRequest" @click="handAdminUpdate(idUpdate)">
                                 Save
+                              </button>
+                              <button
+                                class="px-6 py-3 font-medium tracking-wide text-white btn-clr-primary rounded-md"
+                                v-else disabled @click="handAdminUpdate(idUpdate)">
+                                Saving
                               </button>
                             </div>
                           </div>
@@ -452,8 +477,13 @@ const computedData = computed(() => {
                           </button>
                           <button
                             class="px-4 py-2 mt-1 font-medium tracking-wide text-white bg-red-700 rounded-md hover:bg-red-500 focus:outline-none"
-                            @click="handleDelete(idDelete)">
+                            v-if="!isRequest" @click="handleDelete(idDelete)">
                             Delete
+                          </button>
+                          <button
+                            class="px-4 py-2 mt-1 font-medium tracking-wide text-white bg-red-700 rounded-md hover:bg-red-500 focus:outline-none"
+                            v-else disabled @click="handleDelete(idDelete)">
+                            Deleting
                           </button>
                         </div>
                       </div>

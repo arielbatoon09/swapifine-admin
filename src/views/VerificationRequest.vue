@@ -5,6 +5,7 @@ import { ref, computed, onMounted, watch } from 'vue';
 const data = ref([]);
 const open = ref(false);
 const dataByID = ref([]);
+const isRequest = ref(false);
 
 const searchQuery = ref("");
 const itemsPerPage = 10;
@@ -40,12 +41,14 @@ const getVerificationDetailsByID = async (id) => {
 
 const updateVerificationStatus = async (id, status) => {
   try{
-    console.log(id, status);
+    isRequest.value = true;
     const response = await axios.post('/api/verification/updateVerificationStatus', {
       id: id,
       status: status,
     });
     dataByID.value = response.data.data;
+
+    isRequest.value = false;
 
     // Re-render data
     fetchData();

@@ -121,6 +121,10 @@ onMounted(() => {
                             </th>
                             <th
                                 class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
+                                revenue
+                            </th>
+                            <th
+                                class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
                                 status
                             </th>
                             <th
@@ -149,6 +153,11 @@ onMounted(() => {
                             <td class="px-6 py-4 border-b border-gray-200 whitespace-nowrap">
                                 <div class="text-sm leading-5 text-gray-900">
                                     ₱{{ item.amount }}
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 border-b border-gray-200 whitespace-nowrap">
+                                <div class="text-sm leading-5 text-gray-900">
+                                    <!-- ₱{{ item.amount }} -->  ₱ 50.00
                                 </div>
                             </td>
 
