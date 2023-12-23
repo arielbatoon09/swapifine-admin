@@ -357,10 +357,10 @@ const goToPage = (direction) => {
                         </div>
                       </div>
                       <!-- DELETE MODAL -->
-                      <button class="'absolute mx-3 inset-0 bg-red-600 rounded-md p-2 px-3 text-white hover:text-red-200"
+                      <!-- <button class="'absolute mx-3 inset-0 bg-red-600 rounded-md p-2 px-3 text-white hover:text-red-200"
                         @click="deleteId(item.id)">
                         Delete
-                      </button>
+                      </button> -->
                       <div :class="`modal ${!deletebtn && 'opacity-0 pointer-events-none'
                         } z-50 fixed w-full h-full top-0 left-0 flex items-center justify-center`">
                         <div class="absolute w-full h-full bg-gray-900 opacity-5 modal-overlay"
